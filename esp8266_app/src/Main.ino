@@ -180,4 +180,5 @@ void loop(void) {
   //loopServer();
 	//TestChannels();
 	server.loopServer();
+	TestChannelsExtChannels();
 }
