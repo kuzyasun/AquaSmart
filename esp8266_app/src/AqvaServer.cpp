@@ -8,6 +8,8 @@
 #include "AqvaServer.h"
 #include <functional>
 #include "SPIFFSEditor.cpp"
+#include "Constants.hpp"
+
 
 AqvaServer::AqvaServer(String username, String password, uint16_t listen_port):
   http_username(username),
@@ -22,6 +24,7 @@ void AqvaServer::setupServer(){
     ws =  new AsyncWebSocket("/ws");
     events = new AsyncEventSource("/events");
     server = new AsyncWebServer(port);
+    jsonBuffer = new StaticJsonBuffer<200>;
 
     //Send OTA events to the browser
   ArduinoOTA.onStart([&]() { events->send("Update Start", "ota"); });
@@ -64,9 +67,20 @@ void AqvaServer::setupServer(){
     SPIFFS.begin();
 
 
-    server->on("/heap", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(200, "text/plain", String(ESP.getFreeHeap()));
-      });
+    server->on("/heap", HTTP_GET, [&](AsyncWebServerRequest *request){
+      request->send(200, "text/plain", String(ESP.getFreeHeap()));
+    });
+
+    server->on("/iot_device_id", HTTP_GET, [&](AsyncWebServerRequest *request){
+      AsyncResponseStream *response = request->beginResponseStream("text/json");
+      DynamicJsonBuffer jsonBuffer;
+      JsonObject &root = jsonBuffer.createObject();
+      root["id"] = DEVICE_ID;
+      root["version"] = FIRMWARE_VERSION;
+      root.printTo(*response);
+      request->send(response);
+    });
+
     server->serveStatic("/", SPIFFS, "/").setDefaultFile("index.htm");
 
     server->onNotFound([](AsyncWebServerRequest *request){

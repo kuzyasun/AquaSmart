@@ -7,11 +7,13 @@
 #include <Hash.h>
 #include "ESPAsyncTCP.h"
 #include "ESPAsyncWebServer.h"
+#include "ArduinoJson.h"
 
-class AqvaServer;
+
 
 class AqvaServer {
   private:
+    StaticJsonBuffer<200> *jsonBuffer;
   protected:
     void onWsEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len);
   public:
