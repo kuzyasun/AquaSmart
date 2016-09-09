@@ -5,5 +5,5 @@
 // https://github.com/bblanchon/ArduinoJson
 // If you like this project, please add a star!
 
-#include "include/ArduinoJson.hpp"
+#include "ArduinoJson.hpp"
 using namespace ArduinoJson;

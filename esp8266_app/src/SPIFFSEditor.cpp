@@ -6,7 +6,6 @@
 #include <Hash.h>
 #include "ESPAsyncTCP.h"
 #include "ESPAsyncWebServer.h"
-
 //File: edit.htm.gz, Size: 4924
 #define edit_htm_gz_len 4924
 const uint8_t edit_htm_gz[] PROGMEM = {
