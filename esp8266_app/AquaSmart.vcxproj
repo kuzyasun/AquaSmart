@@ -77,10 +77,30 @@
     <None Include="src\AquaSmart.ino" />
     <None Include="src\Info.ino" />
     <None Include="src\Test.ino" />
-    <None Include="src\WebServer.ino" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="lib\ArduinoJson\ArduinoJson.h" />
+    <ClInclude Include="lib\ESPAsyncTCP\AsyncPrinter.h" />
+    <ClInclude Include="lib\ESPAsyncTCP\async_config.h" />
+    <ClInclude Include="lib\ESPAsyncTCP\ESPAsyncTCP.h" />
+    <ClInclude Include="lib\ESPAsyncTCP\ESPAsyncTCPbuffer.h" />
+    <ClInclude Include="lib\ESPAsyncTCP\SyncClient.h" />
+    <ClInclude Include="lib\ESPAsyncTCP\tcp_axtls.h" />
+    <ClInclude Include="lib\ESPAsyncWebServer\AsyncEventSource.h" />
+    <ClInclude Include="lib\ESPAsyncWebServer\AsyncJson.h" />
+    <ClInclude Include="lib\ESPAsyncWebServer\AsyncWebSocket.h" />
+    <ClInclude Include="lib\ESPAsyncWebServer\ESPAsyncWebServer.h" />
+    <ClInclude Include="lib\ESPAsyncWebServer\StringArray.h" />
+    <ClInclude Include="lib\ESPAsyncWebServer\WebAuthentication.h" />
+    <ClInclude Include="lib\ESPAsyncWebServer\WebHandlerImpl.h" />
+    <ClInclude Include="lib\ESPAsyncWebServer\WebResponseImpl.h" />
     <ClInclude Include="lib\ext_digital\ExtDigitalOutput.h" />
+    <ClInclude Include="lib\NTPtimeESP\NTPtimeESP.h" />
+    <ClInclude Include="lib\rtc_module\RtcDateTime.h" />
+    <ClInclude Include="lib\rtc_module\RtcDS1307.h" />
+    <ClInclude Include="lib\rtc_module\RtcDS3231.h" />
+    <ClInclude Include="lib\rtc_module\RtcTemperature.h" />
+    <ClInclude Include="lib\rtc_module\RtcUtility.h" />
     <ClInclude Include="src\AqvaServer.h" />
     <ClInclude Include="src\Config.hpp" />
     <ClInclude Include="src\Constants.hpp" />
@@ -88,9 +108,26 @@
     <ClInclude Include="__vm\.esp8266_app.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="lib\ESPAsyncTCP\AsyncPrinter.cpp" />
+    <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCP.cpp" />
+    <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCPbuffer.cpp" />
+    <ClCompile Include="lib\ESPAsyncTCP\SyncClient.cpp" />
+    <ClCompile Include="lib\ESPAsyncTCP\tcp_axtls.c" />
+    <ClCompile Include="lib\ESPAsyncWebServer\AsyncEventSource.cpp" />
+    <ClCompile Include="lib\ESPAsyncWebServer\AsyncWebSocket.cpp" />
+    <ClCompile Include="lib\ESPAsyncWebServer\WebAuthentication.cpp" />
+    <ClCompile Include="lib\ESPAsyncWebServer\WebHandlers.cpp" />
+    <ClCompile Include="lib\ESPAsyncWebServer\WebRequest.cpp" />
+    <ClCompile Include="lib\ESPAsyncWebServer\WebResponses.cpp" />
+    <ClCompile Include="lib\ESPAsyncWebServer\WebServer.cpp" />
     <ClCompile Include="lib\ext_digital\ExtDigitalOutput.cpp" />
+    <ClCompile Include="lib\NTPtimeESP\NTPtimeESP.cpp" />
+    <ClCompile Include="lib\rtc_module\RtcDateTime.cpp" />
+    <ClCompile Include="lib\rtc_module\RtcDS1307.cpp" />
+    <ClCompile Include="lib\rtc_module\RtcDS3231.cpp" />
+    <ClCompile Include="lib\rtc_module\RtcUtility.cpp" />
     <ClCompile Include="src\AqvaServer.cpp" />
-    <ClCompile Include="src\AqvaServerHandler.cpp" />
+    <ClCompile Include="src\AqvaServerApiHandler.cpp" />
     <ClCompile Include="src\DebugTests.cpp" />
     <ClCompile Include="src\SPIFFSEditor.cpp" />
   </ItemGroup>

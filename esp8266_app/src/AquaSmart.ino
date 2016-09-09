@@ -65,7 +65,7 @@ const byte PIN_RTC_SCL = 5;
 RtcDS1307 Rtc;
 int i = 0;
 ExtDigitalOutput output(13, 12, 14, 3); // (dataPin/DS, latchPin/STCP, clockPin/SHCP, number of chip),
-AqvaServer server(http_username, http_password, 80);
+AqvaServer server(http_username, http_password, 80, &output, &Rtc);
 
 void printDateTime(const RtcDateTime& dt)
 {
@@ -84,22 +84,22 @@ void printDateTime(const RtcDateTime& dt)
 }
 
 void turnOfAllExtDigitalPins() {
-  for(int i=0;i<=totalExtDigitalPins;i++)
-    {
-      output.write(i, 0);
-    }
+	for (int i = 0; i <= totalExtDigitalPins; i++)
+	{
+		output.write(i, 0);
+	}
 }
 
-void setupWifi(){
+void setupWifi() {
 	Serial.println("----Configuring WIFI----");
-  Serial.println("Configuring access point...");
-  /* You can remove the password parameter if you want the AP to be open. */
-  WiFi.hostname(ac_ssid);
-  WiFi.mode(WIFI_AP_STA);
-  WiFi.softAP(ac_ssid, ac_pwd);
-  IPAddress myIP = WiFi.softAPIP();
-  Serial.println("AP IP address: ");
-  Serial.println(myIP);
+	Serial.println("Configuring access point...");
+	/* You can remove the password parameter if you want the AP to be open. */
+	WiFi.hostname(ac_ssid);
+	WiFi.mode(WIFI_AP_STA);
+	WiFi.softAP(ac_ssid, ac_pwd);
+	IPAddress myIP = WiFi.softAPIP();
+	Serial.println("AP IP address: ");
+	Serial.println(myIP);
 
 	softap_config config;
 	wifi_softap_get_config(&config);
@@ -114,7 +114,7 @@ void setupWifi(){
 		delay(250);
 		output.write(red_signal_pin, 1);
 		delay(250);
-    Serial.print(WiFi.status());
+		Serial.print(WiFi.status());
 		if (i > 20) {
 			Serial.println("Cant connect to WIFI station");
 			break;
@@ -136,8 +136,8 @@ void setupWifi(){
 
 void setupRtc() {
 	//--------RTC SETUP ------------
-  Serial.print("Compiled date:");
-  Serial.println(__DATE__ );
+	Serial.print("Compiled date:");
+	Serial.println(__DATE__);
 	//SDA SCL
 	Rtc.Begin(PIN_RTC_SDA, PIN_RTC_SCL);
 	// if you are using ESP-01 then uncomment the line below to reset the pins to
@@ -194,7 +194,7 @@ void setup(void) {
 	printChipDetails();
 
 	output.begin();
-  turnOfAllExtDigitalPins();
+	turnOfAllExtDigitalPins();
 	output.write(RELAY_VCC_PIN, 0);
 
 	output.write(red_signal_pin, 0);
@@ -219,26 +219,27 @@ void loop(void) {
 }
 
 void printChipDetails() {
-		Serial.println("--------Module details--------");
-		Serial.print(F("system_get_time(): "));
-    Serial.println(system_get_time());
+	Serial.println("--------Module details--------");
+	Serial.print(F("system_get_time(): "));
+	Serial.println(system_get_time());
 
-		uint32_t realSize = ESP.getFlashChipRealSize();
-	 	uint32_t ideSize = ESP.getFlashChipSize();
-	 	FlashMode_t ideMode = ESP.getFlashChipMode();
+	uint32_t realSize = ESP.getFlashChipRealSize();
+	uint32_t ideSize = ESP.getFlashChipSize();
+	FlashMode_t ideMode = ESP.getFlashChipMode();
 
-		Serial.printf("Flash real id:   %08X\n", ESP.getFlashChipId());
-		Serial.printf("Flash real size: %u\n\n", realSize);
+	Serial.printf("Flash real id:   %08X\n", ESP.getFlashChipId());
+	Serial.printf("Flash real size: %u\n\n", realSize);
 
-		Serial.printf("Flash ide  size: %u\n", ideSize);
-		Serial.printf("Flash ide speed: %u\n", ESP.getFlashChipSpeed());
-		Serial.printf("Flash ide mode:  %s\n", (ideMode == FM_QIO ? "QIO" : ideMode == FM_QOUT ? "QOUT" : ideMode == FM_DIO ? "DIO" : ideMode == FM_DOUT ? "DOUT" : "UNKNOWN"));
+	Serial.printf("Flash ide  size: %u\n", ideSize);
+	Serial.printf("Flash ide speed: %u\n", ESP.getFlashChipSpeed());
+	Serial.printf("Flash ide mode:  %s\n", (ideMode == FM_QIO ? "QIO" : ideMode == FM_QOUT ? "QOUT" : ideMode == FM_DIO ? "DIO" : ideMode == FM_DOUT ? "DOUT" : "UNKNOWN"));
 
-		if(ideSize != realSize) {
-			 Serial.println("Flash Chip configuration wrong!\n");
-		} else {
-			 Serial.println("Flash Chip configuration ok.\n");
-		}
-		Serial.println("-------------------------------");
-		print_system_info(Serial);
+	if (ideSize != realSize) {
+		Serial.println("Flash Chip configuration wrong!\n");
+	}
+	else {
+		Serial.println("Flash Chip configuration ok.\n");
+	}
+	Serial.println("-------------------------------");
+	print_system_info(Serial);
 }
