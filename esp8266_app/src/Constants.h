@@ -34,3 +34,6 @@ extern const byte E12;
 extern const byte E13;
 extern const byte E14;
 extern const byte RELAY_VCC_PIN;
+extern const byte RELAY_VCC_PIN;
+extern const byte PIN_RTC_SDA;
+extern const byte PIN_RTC_SCL;

@@ -12,7 +12,7 @@
 #include <mem.h>
 #include <time.h>
 
-#include "include\ntp.h"
+#include "ntp.h"
 
 // list of major public servers http://tf.nist.gov/tf-cgi/servers.cgi
 uint8 ntp_server[] = {131, 107, 13, 100}; // microsoft

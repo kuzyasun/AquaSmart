@@ -1,5 +1,5 @@
 #include "ExtDigitalOutput.h"
-#include "Constants.hpp"
+#include "Constants.h"
 
 void TestChannelsExtChannels(ExtDigitalOutput output) {
 

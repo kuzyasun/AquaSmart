@@ -5,10 +5,6 @@ extern "C" {
 }
 #endif
 
-#include <RtcDateTime.h>
-#include <RtcDS1307.h>
-#include <RtcTemperature.h>
-#include <RtcUtility.h>
 #include <Wire.h>
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
@@ -21,10 +17,10 @@ extern "C" {
 #include "ESPAsyncTCP.h"
 #include "ESPAsyncWebServer.h"
 #include "AqvaServer.h"
-#include "Constants.hpp"
+#include "Constants.h"
+#include "Modules.h"
 #include <time.h>
-
-#define countof(a) (sizeof(a) / sizeof(a[0]))
+#include "TimeUtil.h"
 
 const char* DEVICE_ID = "aquasmart";
 const char* FIRMWARE_VERSION = "1.0.0";
@@ -37,7 +33,7 @@ char* password = "Emc902NetWifiNew";
 
 char* ac_ssid = "AqvaLightAP";
 char* ac_pwd = "12345678";
-char* hostName = "aquamart-host";
+char* hostName = "aquamart.local";
 const int totalExtDigitalPins = 16;
 const byte red_signal_pin = 0;
 const byte green_signal_pin = 8;
@@ -62,26 +58,11 @@ const byte RELAY_VCC_PIN = 15;
 const byte PIN_RTC_SDA = 4;
 const byte PIN_RTC_SCL = 5;
 
-RtcDS1307 Rtc;
+
 int i = 0;
 ExtDigitalOutput output(13, 12, 14, 3); // (dataPin/DS, latchPin/STCP, clockPin/SHCP, number of chip),
-AqvaServer server(http_username, http_password, 80, &output, &Rtc);
-
-void printDateTime(const RtcDateTime& dt)
-{
-	char datestring[20];
-
-	snprintf_P(datestring,
-		countof(datestring),
-		PSTR("%02u/%02u/%04u %02u:%02u:%02u"),
-		dt.Month(),
-		dt.Day(),
-		dt.Year(),
-		dt.Hour(),
-		dt.Minute(),
-		dt.Second());
-	Serial.println(datestring);
-}
+AqvaServer server(http_username, http_password, 80, &output);
+TimeUtil* timeModule = new TimeUtil();
 
 void turnOfAllExtDigitalPins() {
 	for (int i = 0; i <= totalExtDigitalPins; i++)
@@ -93,17 +74,24 @@ void turnOfAllExtDigitalPins() {
 void setupWifi() {
 	Serial.println("----Configuring WIFI----");
 	Serial.println("Configuring access point...");
+	WiFi.disconnect(0);
 	/* You can remove the password parameter if you want the AP to be open. */
-	WiFi.hostname(ac_ssid);
-	WiFi.mode(WIFI_AP_STA);
-	WiFi.softAP(ac_ssid, ac_pwd);
-	IPAddress myIP = WiFi.softAPIP();
-	Serial.println("AP IP address: ");
-	Serial.println(myIP);
+	WiFi.hostname(hostName);
+	wifi_station_set_hostname(hostName);
+	WiFi.mode(WIFI_STA);
+	/*WiFi.mode(WIFI_AP_STA);
+   WiFi.softAP(ac_ssid, ac_pwd);
+   IPAddress myIP = WiFi.softAPIP();
+   Serial.println("AP IP address: ");
+   Serial.println(myIP);
+   //
+   softap_config config;
+   wifi_softap_get_config(&config);
+   print_softap_config(Serial, config);*/
 
-	softap_config config;
-	wifi_softap_get_config(&config);
-	print_softap_config(Serial, config);
+
+   // set_event_handler_cb_stream(Serial);
+	wifi_set_event_handler_cb(wifi_event_handler_cb);
 
 	WiFi.begin(ssid, password);
 	// Wait for connection
@@ -114,8 +102,10 @@ void setupWifi() {
 		delay(250);
 		output.write(red_signal_pin, 1);
 		delay(250);
-		Serial.print(WiFi.status());
-		if (i > 20) {
+		// Serial.print(WiFi.status());
+		Serial.println(WiFi.isConnected());
+		if (i > 30) {
+			Serial.println();
 			Serial.println("Cant connect to WIFI station");
 			break;
 		}
@@ -134,57 +124,6 @@ void setupWifi() {
 	print_wifi_general(Serial);
 }
 
-void setupRtc() {
-	//--------RTC SETUP ------------
-	Serial.print("Compiled date:");
-	Serial.println(__DATE__);
-	//SDA SCL
-	Rtc.Begin(PIN_RTC_SDA, PIN_RTC_SCL);
-	// if you are using ESP-01 then uncomment the line below to reset the pins to
-	// the available pins for SDA, SCL
-	// Wire.begin(0, 2); // due to limited pins, use pin 0 and 2 for SDA, SCL
-	RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__);
-	printDateTime(compiled);
-
-	if (!Rtc.IsDateTimeValid())
-	{
-		// Common Cuases:
-		//    1) first time you ran and the device wasn't running yet
-		//    2) the battery on the device is low or even missing
-		Serial.println("RTC lost confidence in the DateTime! Setting compilation time.");
-		// following line sets the RTC to the date & time this sketch was compiled
-		// it will also reset the valid flag internally unless the Rtc device is
-		// having an issue
-		Rtc.SetDateTime(compiled);
-	}
-
-	if (!Rtc.GetIsRunning())
-	{
-		Serial.println("RTC was not actively running, starting now");
-		Rtc.SetIsRunning(true);
-	}
-
-	RtcDateTime now = Rtc.GetDateTime();
-	Serial.print("RTC time:  ");
-	printDateTime(now);
-	if (now < compiled)
-	{
-		Serial.println("RTC is older than compile time!  (Updating DateTime)");
-		Rtc.SetDateTime(compiled);
-	}
-	else if (now > compiled)
-	{
-		Serial.println("RTC is newer than compile time. (this is expected)");
-	}
-	else if (now == compiled)
-	{
-		Serial.println("RTC is the same as compile time! (not expected but all is fine)");
-	}
-	// never assume the Rtc was last configured by you, so
-	// just clear them to your needed state
-	Rtc.SetSquareWavePin(DS1307SquareWaveOut_Low);
-}
-
 
 void setup(void) {
 	Serial.begin(115200);
@@ -200,7 +139,7 @@ void setup(void) {
 	output.write(red_signal_pin, 0);
 	output.write(green_signal_pin, 1);
 
-	setupRtc();
+	timeModule->setup();
 	setupWifi();
 	server.setupServer();
 
@@ -209,37 +148,16 @@ void setup(void) {
 
 	//turn on relay module
 	//output.write(RELAY_VCC_PIN, 1);
+
+	Serial.println(timeModule->getNtpTimeString());
 }
 
 void loop(void) {
-	server.loopServer();
-
+	//server.loopServer();
+//	Serial.println(timeModule->getNtpTimeString());
+//	delay(1000);
 	//testing ext channels
 	//TestChannelsExtChannels(output);
-}
 
-void printChipDetails() {
-	Serial.println("--------Module details--------");
-	Serial.print(F("system_get_time(): "));
-	Serial.println(system_get_time());
 
-	uint32_t realSize = ESP.getFlashChipRealSize();
-	uint32_t ideSize = ESP.getFlashChipSize();
-	FlashMode_t ideMode = ESP.getFlashChipMode();
-
-	Serial.printf("Flash real id:   %08X\n", ESP.getFlashChipId());
-	Serial.printf("Flash real size: %u\n\n", realSize);
-
-	Serial.printf("Flash ide  size: %u\n", ideSize);
-	Serial.printf("Flash ide speed: %u\n", ESP.getFlashChipSpeed());
-	Serial.printf("Flash ide mode:  %s\n", (ideMode == FM_QIO ? "QIO" : ideMode == FM_QOUT ? "QOUT" : ideMode == FM_DIO ? "DIO" : ideMode == FM_DOUT ? "DOUT" : "UNKNOWN"));
-
-	if (ideSize != realSize) {
-		Serial.println("Flash Chip configuration wrong!\n");
-	}
-	else {
-		Serial.println("Flash Chip configuration ok.\n");
-	}
-	Serial.println("-------------------------------");
-	print_system_info(Serial);
 }

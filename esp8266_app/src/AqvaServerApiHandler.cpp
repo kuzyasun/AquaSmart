@@ -1,3 +1,6 @@
+
+#define AQUASMART_H
+
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <ArduinoOTA.h>
@@ -6,14 +9,20 @@
 #include "ESPAsyncTCP.h"
 #include "ESPAsyncWebServer.h"
 #include <RtcDS1307.h>
-#include "Constants.hpp"
+#include "Constants.h"
+#include "Modules.h"
 #include <ArduinoJson.h>
 #include "ExtDigitalOutput.h"
-#include <RtcDS1307.h>
+#include "TimeUtil.h"
 
 static const String API_VERSION = "v1";
 static const String API_URI = "/api/" + API_VERSION + "/";
-static const byte startIndex = API_URI.length() - 1;
+static const byte startIndex = API_URI.length();
+
+static const String GET_RTC_TIME = "get_rtc_time";
+static const String GET_NTP_TIME = "get_ntp_time";
+static const String RESTART = "restart";
+static const String RESET = "reset";
 
 class AqvaServerApiHandler : public AsyncWebHandler {
 private:
@@ -21,10 +30,12 @@ private:
 	String _password;
 	bool _authenticated;
 	uint32_t _startTime;
+	strDateTime rtcTime;
+	strDateTime ntpTime;
 	StaticJsonBuffer<200>* jsonBuffer = new StaticJsonBuffer<200>;
 
 public:
-	AqvaServerApiHandler(String username, String password, ExtDigitalOutput* out, RtcDS1307* rtc)
+	AqvaServerApiHandler(String username, String password, ExtDigitalOutput* out)
 		:_username(username),
 		_password(password),
 		_authenticated(false),
@@ -69,10 +80,22 @@ public:
 		AsyncResponseStream *response = request->beginResponseStream("text/json");
 		DynamicJsonBuffer jsonBuffer;
 		JsonObject &root = jsonBuffer.createObject();
-		root["id"] = DEVICE_ID;
-		root["version"] = FIRMWARE_VERSION;
+		root["time"] = timeModule->getRtcTimeString();
 		root.printTo(*response);
 		request->send(response);
+	}
+
+	void handleGetNtpTime(AsyncWebServerRequest *request)
+	{		
+		//TODO with async udp
+		AsyncResponseStream *response = request->beginResponseStream("text/json");
+		DynamicJsonBuffer jsonBuffer;
+		JsonObject &root = jsonBuffer.createObject();
+		root["time"] = timeModule->getDateTimeString(ntpTime);
+		root.printTo(*response);
+		request->send(response);
+
+		ntpTime = timeModule->getNtpTime();
 	}
 
 
@@ -82,6 +105,34 @@ public:
 		String command = request->url().substring(startIndex);
 
 		Serial.println(command);
+
+		if (command.equalsIgnoreCase(RESTART))
+		{
+			request->send(200);
+			delay(200);
+			ESP.restart();
+			return;
+		}
+
+		if (command.equalsIgnoreCase(RESET))
+		{
+			request->send(200);
+			delay(200);
+			ESP.reset();
+			return;
+		}
+
+		if(command.equalsIgnoreCase(GET_NTP_TIME))
+		{
+			handleGetNtpTime(request);
+			return;
+		}
+
+		if (command.equalsIgnoreCase(GET_RTC_TIME))
+		{
+			handleGetRtcTime(request);
+			return;
+		}
 
 		request->send(200);
 		/*if (request->method() == HTTP_GET) {
@@ -146,21 +197,4 @@ public:
 		}*/
 	}
 
-	void handleUpload(AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final) {
-		if (!index) {
-			if (!_username.length() || request->authenticate(_username.c_str(), _password.c_str())) {
-				_authenticated = true;
-				request->_tempFile = SPIFFS.open(filename, "w");
-				_startTime = millis();
-			}
-		}
-		if (_authenticated && request->_tempFile) {
-			if (len) {
-				request->_tempFile.write(data, len);
-			}
-			if (final) {
-				request->_tempFile.close();
-			}
-		}
-	}
 };

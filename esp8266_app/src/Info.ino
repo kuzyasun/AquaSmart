@@ -77,16 +77,31 @@ const char * const PHY_MODE_NAMES[]
     "PHY_MODE_11N"
 };
 
+//old walues from example
+//const char * const EVENT_NAMES[]
+//{
+//    "EVENT_STAMODE_CONNECTED",
+//    "EVENT_STAMODE_DISCONNECTED",
+//    "EVENT_STAMODE_AUTHMODE_CHANGE",
+//    "EVENT_STAMODE_GOT_IP",
+//    "EVENT_SOFTAPMODE_STACONNECTED",
+//    "EVENT_SOFTAPMODE_STADISCONNECTED",
+//    "EVENT_MAX"
+//};
+
 const char * const EVENT_NAMES[]
 {
-    "EVENT_STAMODE_CONNECTED",
-    "EVENT_STAMODE_DISCONNECTED",
-    "EVENT_STAMODE_AUTHMODE_CHANGE",
-    "EVENT_STAMODE_GOT_IP",
-    "EVENT_SOFTAPMODE_STACONNECTED",
-    "EVENT_SOFTAPMODE_STADISCONNECTED",
-    "EVENT_MAX"
+	"EVENT_STAMODE_CONNECTED",
+	"EVENT_STAMODE_DISCONNECTED",
+	"EVENT_STAMODE_AUTHMODE_CHANGE",
+	"EVENT_STAMODE_GOT_IP",
+	"EVENT_STAMODE_DHCP_TIMEOUT",
+	"EVENT_SOFTAPMODE_STACONNECTED",
+	"EVENT_SOFTAPMODE_STADISCONNECTED",
+	"EVENT_SOFTAPMODE_PROBEREQRECVED",
+	"EVENT_MAX"
 };
+
 
 const char * const EVENT_REASONS[]
 {
@@ -124,8 +139,8 @@ const char * const EVENT_REASONS_200[]
 
 void wifi_event_handler_cb(System_Event_t * event)
 {
-    ehConsolePort.print(EVENT_NAMES[event->event]);
     ehConsolePort.print(" (");
+    ehConsolePort.print(EVENT_NAMES[event->event] + event->event);
 
     switch (event->event)
     {
@@ -232,4 +247,30 @@ void print_wifi_general(Stream & consolePort)
 
     consolePort.print(F("wifi_get_phy_mode(): "));
     consolePort.println(PHY_MODE_NAMES[wifi_get_phy_mode()]);
+}
+
+void printChipDetails() {
+	Serial.println("--------Module details--------");
+	Serial.print(F("system_get_time(): "));
+	Serial.println(system_get_time());
+
+	uint32_t realSize = ESP.getFlashChipRealSize();
+	uint32_t ideSize = ESP.getFlashChipSize();
+	FlashMode_t ideMode = ESP.getFlashChipMode();
+
+	Serial.printf("Flash real id:   %08X\n", ESP.getFlashChipId());
+	Serial.printf("Flash real size: %u\n\n", realSize);
+
+	Serial.printf("Flash ide  size: %u\n", ideSize);
+	Serial.printf("Flash ide speed: %u\n", ESP.getFlashChipSpeed());
+	Serial.printf("Flash ide mode:  %s\n", (ideMode == FM_QIO ? "QIO" : ideMode == FM_QOUT ? "QOUT" : ideMode == FM_DIO ? "DIO" : ideMode == FM_DOUT ? "DOUT" : "UNKNOWN"));
+
+	if (ideSize != realSize) {
+		Serial.println("Flash Chip configuration wrong!\n");
+	}
+	else {
+		Serial.println("Flash Chip configuration ok.\n");
+	}
+	Serial.println("-------------------------------");
+	print_system_info(Serial);
 }

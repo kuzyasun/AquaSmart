@@ -10,9 +10,10 @@
 */
 
 #include <Arduino.h>
-#include "NTPtimeESP.h"
 
 #define LEAP_YEAR(Y) ( ((1970+Y)>0) && !((1970+Y)%4) && ( ((1970+Y)%100) || !((1970+Y)%400) ) )
+#include "NTPAsyncUDP.h"
+#include <ESPAsyncUDP.h>
 
 const int NTP_PACKET_SIZE = 48;
 byte _packetBuffer[NTP_PACKET_SIZE];
@@ -23,11 +24,11 @@ String _NTPserver = "";
 
 // NTPserver is the name of the NTPserver
 
-NTPtime::NTPtime(String NTPserver) {
+NTPAsyncUDP::NTPAsyncUDP(String NTPserver) {
 	_NTPserver = NTPserver;
 }
 
-void NTPtime::printDateTime(strDateTime _dateTime) {
+void NTPAsyncUDP::printDateTime(strDateTime _dateTime) {
 
 	Serial.print(_dateTime.year);
 	Serial.print("-");
@@ -48,7 +49,7 @@ void NTPtime::printDateTime(strDateTime _dateTime) {
 }
 
 // Converts a unix time stamp to a strDateTime structure
-strDateTime NTPtime::ConvertUnixTimestamp(unsigned long _tempTimeStamp) {
+strDateTime NTPAsyncUDP::ConvertUnixTimestamp(unsigned long _tempTimeStamp) {
 	strDateTime _tempDateTime;
 	uint8_t _year, _month, _monthLength;
 	uint32_t _time;
@@ -107,7 +108,7 @@ strDateTime NTPtime::ConvertUnixTimestamp(unsigned long _tempTimeStamp) {
 //
 // Summertime calculates the daylight saving time for middle Europe. Input: Unixtime in UTC
 //
-boolean NTPtime::summerTime(unsigned long _timeStamp) {
+boolean NTPAsyncUDP::summerTime(unsigned long _timeStamp) {
 
 	strDateTime  _tempDateTime;
 	_tempDateTime = ConvertUnixTimestamp(_timeStamp);
@@ -121,7 +122,7 @@ boolean NTPtime::summerTime(unsigned long _timeStamp) {
 		return false;
 }
 
-boolean NTPtime::daylightSavingTime(unsigned long _timeStamp) {
+boolean NTPAsyncUDP::daylightSavingTime(unsigned long _timeStamp) {
 
 	strDateTime  _tempDateTime;
 	_tempDateTime = ConvertUnixTimestamp(_timeStamp);
@@ -131,7 +132,7 @@ boolean NTPtime::daylightSavingTime(unsigned long _timeStamp) {
 }
 
 
-unsigned long NTPtime::adjustTimeZone(unsigned long _timeStamp, float _timeZone, byte _DayLightSaving) {
+unsigned long NTPAsyncUDP::adjustTimeZone(unsigned long _timeStamp, float _timeZone, byte _DayLightSaving) {
 	strDateTime _tempDateTime;
 	_timeStamp += (unsigned long)(_timeZone *  3600.0); // adjust timezone
 	if (_DayLightSaving == 1 && summerTime(_timeStamp)) _timeStamp += 3600; // European Summer time
@@ -142,7 +143,7 @@ unsigned long NTPtime::adjustTimeZone(unsigned long _timeStamp, float _timeZone,
 // time zone is the difference to UTC in hours
 // if _isDayLightSaving is true, time will be adjusted accordingly
 
-strDateTime NTPtime::getNTPtime(float _timeZone, boolean _DayLightSaving)
+strDateTime NTPAsyncUDP::getNTPtime(float _timeZone, boolean _DayLightSaving)
 {
 	int cb;
 	strDateTime _dateTime;
@@ -168,17 +169,29 @@ strDateTime NTPtime::getNTPtime(float _timeZone, boolean _DayLightSaving)
 	{
 		{
 #ifdef DEBUG_ON
-			IPAddress _timeServerIP;
-			WiFi.hostByName(_NTPserver.c_str(), _timeServerIP);
-			Serial.println(_timeServerIP);
-#endif
-
-#ifdef DEBUG_ON
 			Serial.println("Waiting for NTP packet from" + _NTPserver);
 #endif
-			UDPNTPClient.begin(1337);  // Port for NTP receive
-
-			while (!_dateTime.valid) {
+			if (UDPNTPClient.connect(IPAddress(217, 147, 208, 1), 1337)) {
+				Serial.println("UDP connected");
+				UDPNTPClient.onPacket([](AsyncUDPPacket packet) {
+					Serial.print("UDP Packet Type: ");
+					Serial.print(packet.isBroadcast() ? "Broadcast" : packet.isMulticast() ? "Multicast" : "Unicast");
+					Serial.print(", From: ");
+					Serial.print(packet.remoteIP());
+					Serial.print(":");
+					Serial.print(packet.remotePort());
+					Serial.print(", To: ");
+					Serial.print(packet.localIP());
+					Serial.print(":");
+					Serial.print(packet.localPort());
+					Serial.print(", Length: ");
+					Serial.print(packet.length());
+					Serial.print(", Data: ");
+					Serial.write(packet.data(), packet.length());
+					Serial.println();
+					//reply to the client
+					packet.printf("Got %u bytes of data", packet.length());
+				});
 
 #ifdef DEBUG_ON
 				Serial.println("sending NTP packet...");
@@ -192,40 +205,41 @@ strDateTime NTPtime::getNTPtime(float _timeZone, boolean _DayLightSaving)
 				_packetBuffer[13] = 0x4E;
 				_packetBuffer[14] = 49;
 				_packetBuffer[15] = 52;
-				UDPNTPClient.beginPacket(_NTPserver.c_str(), 123);
 				UDPNTPClient.write(_packetBuffer, NTP_PACKET_SIZE);
-				UDPNTPClient.endPacket();
-
-				unsigned long entry = millis();
-				do {
-					cb = UDPNTPClient.parsePacket();
-				} while (cb == 0 && millis() - entry < 5000);
-
-				if (cb == 0) {
-#ifdef DEBUG_ON
-					Serial.print(".");
-#endif
-				}
-				else {
-#ifdef DEBUG_ON
-					Serial.println();
-					Serial.print("NTP packet received, length=");
-					Serial.println(cb);
-#endif
-					UDPNTPClient.read(_packetBuffer, NTP_PACKET_SIZE); // read the packet into the buffer
-					unsigned long highWord = word(_packetBuffer[40], _packetBuffer[41]);
-					unsigned long lowWord = word(_packetBuffer[42], _packetBuffer[43]);
-					unsigned long secsSince1900 = highWord << 16 | lowWord;
-					const unsigned long seventyYears = 2208988800UL;
-					_unixTime = secsSince1900 - seventyYears;
-					if (_unixTime > 0) {
-						_currentTimeStamp = adjustTimeZone(_unixTime, _timeZone, _DayLightSaving);
-						_dateTime = ConvertUnixTimestamp(_currentTimeStamp);
-						_dateTime.valid = true;
-					}
-					else _dateTime.valid = false;
-				}
+				//				UDPNTPClient.beginPacket(_NTPserver.c_str(), 123);
+				//				UDPNTPClient.write(_packetBuffer, NTP_PACKET_SIZE);
+				//				UDPNTPClient.endPacket();
+								//Send unicast
+				//				UDPNTPClient.print("Hello Server!");
 			}
+
+#ifdef DEBUG_ON
+			IPAddress _timeServerIP;
+			WiFi.hostByName(_NTPserver.c_str(), _timeServerIP);
+			Serial.println(_timeServerIP);
+#endif
+
+//			while (!_dateTime.valid) {
+//
+//#ifdef DEBUG_ON
+//				Serial.println();
+//				Serial.print("NTP packet received, length=");
+//				Serial.println(cb);
+//#endif
+//				UDPNTPClient.read(_packetBuffer, NTP_PACKET_SIZE); // read the packet into the buffer
+//				unsigned long highWord = word(_packetBuffer[40], _packetBuffer[41]);
+//				unsigned long lowWord = word(_packetBuffer[42], _packetBuffer[43]);
+//				unsigned long secsSince1900 = highWord << 16 | lowWord;
+//				const unsigned long seventyYears = 2208988800UL;
+//				_unixTime = secsSince1900 - seventyYears;
+//				if (_unixTime > 0) {
+//					_currentTimeStamp = adjustTimeZone(_unixTime, _timeZone, _DayLightSaving);
+//					_dateTime = ConvertUnixTimestamp(_currentTimeStamp);
+//					_dateTime.valid = true;
+//				}
+//				else _dateTime.valid = false;
+//			}
+
 		}
 	}
 	//yield();

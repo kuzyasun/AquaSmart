@@ -34,6 +34,15 @@
     <Filter Include="lib\rtc_module">
       <UniqueIdentifier>{010b2bbf-6cea-49ba-85dd-ed3ddc09d3e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lib\ntp">
+      <UniqueIdentifier>{34fdbbad-815f-4bbf-9886-70253a43c7de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\ESPAsyncUDP">
+      <UniqueIdentifier>{b5604842-5426-4f05-a430-8e020d1b838e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\NTPAsyncUDP">
+      <UniqueIdentifier>{cc4436e4-e70d-4b00-b7f8-faeb647ed8d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Info.ino">
@@ -57,9 +66,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Config.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Constants.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\ext_digital\ExtDigitalOutput.h">
@@ -128,6 +134,24 @@
     <ClInclude Include="lib\rtc_module\RtcUtility.h">
       <Filter>lib\rtc_module</Filter>
     </ClInclude>
+    <ClInclude Include="lib\ntp\ntp.h">
+      <Filter>lib\ntp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Constants.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TimeUtil.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ESPAsyncUDP\ESPAsyncUDP.h">
+      <Filter>lib\ESPAsyncUDP</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\NTPAsyncUPD\NTPAsyncUDP.h">
+      <Filter>lib\NTPAsyncUDP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AqvaServer.cpp">
@@ -195,6 +219,21 @@
     </ClCompile>
     <ClCompile Include="src\AqvaServerApiHandler.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ntp\ntp.c">
+      <Filter>lib\ntp</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ntp\timezone.c">
+      <Filter>lib\ntp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TimeUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncUDP\AsyncUDP.cpp">
+      <Filter>lib\ESPAsyncUDP</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\NTPAsyncUPD\NTPAsyncUDP.cpp">
+      <Filter>lib\NTPAsyncUDP</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

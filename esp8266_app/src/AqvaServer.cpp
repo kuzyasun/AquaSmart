@@ -1,3 +1,4 @@
+
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <ArduinoOTA.h>
@@ -10,16 +11,14 @@
 #include "SPIFFSEditor.cpp"
 #include "AqvaServerApiHandler.cpp"
 #include <ArduinoJson.h>
-#include "Constants.hpp"
+#include "Constants.h"
 #include <RtcDS1307.h>
 
-
-AqvaServer::AqvaServer(String username, String password, uint16_t listen_port, ExtDigitalOutput* out, RtcDS1307* rtc) :
+AqvaServer::AqvaServer(String username, String password, uint16_t listen_port, ExtDigitalOutput* out) :
 	http_username(username),
 	http_password(password),
 	port(listen_port),
-	output(out),
-	Rtc(rtc)
+	output(out)
 {}
 
 void AqvaServer::loopServer() {
@@ -49,7 +48,7 @@ void AqvaServer::setupServer() {
 		else if (error == OTA_END_ERROR) events->send("End Failed", "ota");
 	});
 
-	//ArduinoOTA.setHostname(hostName);
+	ArduinoOTA.setHostname(hostName);
 	ArduinoOTA.begin();
 
 	MDNS.addService("http", "tcp", 80);
@@ -68,11 +67,7 @@ void AqvaServer::setupServer() {
 	server->addHandler(events);
 
 	server->addHandler(new SPIFFSEditor(http_username, http_password));
-	server->addHandler(new AqvaServerApiHandler(http_username, http_password, output, Rtc));
-
-	MDNS.addService("http", "tcp", 80);
-	SPIFFS.begin();
-
+	server->addHandler(new AqvaServerApiHandler(http_username, http_password, output));
 
 	server->on("/heap", HTTP_GET, [&](AsyncWebServerRequest *request) {
 		request->send(200, "text/plain", String(ESP.getFreeHeap()));
