@@ -58,11 +58,10 @@
   </ImportGroup>
   <ItemGroup>
     <None Include="platformio.ini" />
-    <None Include="src\AquaSmart.ino" />
-    <None Include="src\Info.ino" />
-    <None Include="src\Test.ino" />
+    <None Include="src\AquaSmart.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Debug.cpp" />
     <ClCompile Include="lib\ESPAsyncTCP\AsyncPrinter.cpp" />
     <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCP.cpp" />
     <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCPbuffer.cpp" />

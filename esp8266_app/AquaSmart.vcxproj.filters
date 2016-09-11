@@ -49,13 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="platformio.ini" />
-    <None Include="src\AquaSmart.ino">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="src\Info.ino">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="src\Test.ino">
+    <None Include="src\AquaSmart.cpp">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
@@ -143,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="lib\Ticker\Ticker.cpp">
       <Filter>lib\Ticker</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
