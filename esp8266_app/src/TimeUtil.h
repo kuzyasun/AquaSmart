@@ -10,13 +10,14 @@
 #include <NTPtimeESP.h>
 #include <time.h>
 #include "Constants.h"
+#include <Ticker.h>
 
 
 class TimeUtil;
 class TimeUtil
 {
 private:
-public:	
+public:
 	TimeUtil();
 	void printRtcDateTime(const RtcDateTime& dt);
 	String getDateTimeString(const strDateTime dt);
@@ -24,11 +25,15 @@ public:
 	NTPtime NTPch;
 	//NTPAsyncUDP asyncTime;
 	strDateTime dateTime;
+	strDateTime rtcTime;
+	strDateTime ntpTime;
 	void setup();
 	strDateTime getNtpTime();
 	String getNtpTimeString();
 	strDateTime getRtcTime();
 	String getRtcTimeString();
 	void setupRtc();
+	Ticker ntmTimeUpdater;
+	void updateNtpTime();
 };
 #endif

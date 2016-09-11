@@ -3,6 +3,10 @@
 
 #define countof(a) (sizeof(a) / sizeof(a[0]))
 
+void ntpTimeUpdate(TimeUtil * time)
+{
+	time->getNtpTime();
+}
 
 void TimeUtil::printRtcDateTime(const RtcDateTime& dt)
 {
@@ -58,7 +62,7 @@ strDateTime TimeUtil::getNtpTime()
 	dateTime = NTPch.getNTPtime(2.0, 1);
 	//dateTime = asyncTime.getNTPtime(1.0, 1);
 	NTPch.printDateTime(dateTime);
-
+	ntpTime = dateTime;
 	return dateTime;
 }
 
@@ -66,6 +70,13 @@ String TimeUtil::getNtpTimeString()
 {
 	return getDateTimeString(getNtpTime());
 }
+
+void TimeUtil::updateNtpTime()
+{
+	ntmTimeUpdater.once(3, ntpTimeUpdate, this);
+}
+
+
 
 strDateTime TimeUtil::getRtcTime()
 {
@@ -79,7 +90,7 @@ strDateTime TimeUtil::getRtcTime()
 	ctime.hour = now.Hour();
 	ctime.minute = now.Minute();
 	ctime.second = now.Second();
-
+	rtcTime = ctime;
 	return ctime;
 }
 

@@ -14,6 +14,7 @@
 #include <ArduinoJson.h>
 #include "ExtDigitalOutput.h"
 #include "TimeUtil.h"
+#include "Ticker.h"
 
 static const String API_VERSION = "v1";
 static const String API_URI = "/api/" + API_VERSION + "/";
@@ -24,14 +25,15 @@ static const String GET_NTP_TIME = "get_ntp_time";
 static const String RESTART = "restart";
 static const String RESET = "reset";
 
+#define DELAY 1000 /* milliseconds */
+
 class AqvaServerApiHandler : public AsyncWebHandler {
 private:
 	String _username;
 	String _password;
 	bool _authenticated;
 	uint32_t _startTime;
-	strDateTime rtcTime;
-	strDateTime ntpTime;
+	Ticker* ntpUpdateTimer;
 	StaticJsonBuffer<200>* jsonBuffer = new StaticJsonBuffer<200>;
 
 public:
@@ -86,16 +88,16 @@ public:
 	}
 
 	void handleGetNtpTime(AsyncWebServerRequest *request)
-	{		
+	{
 		//TODO with async udp
 		AsyncResponseStream *response = request->beginResponseStream("text/json");
 		DynamicJsonBuffer jsonBuffer;
 		JsonObject &root = jsonBuffer.createObject();
-		root["time"] = timeModule->getDateTimeString(ntpTime);
+		root["time"] = timeModule->getDateTimeString(timeModule->ntpTime);
 		root.printTo(*response);
 		request->send(response);
 
-		ntpTime = timeModule->getNtpTime();
+		timeModule->updateNtpTime();
 	}
 
 

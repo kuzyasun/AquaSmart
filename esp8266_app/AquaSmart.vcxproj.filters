@@ -43,6 +43,9 @@
     <Filter Include="lib\NTPAsyncUDP">
       <UniqueIdentifier>{cc4436e4-e70d-4b00-b7f8-faeb647ed8d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lib\Ticker">
+      <UniqueIdentifier>{ac787595-3ee9-4b43-9261-cbedffda3a38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Info.ino">
@@ -152,6 +155,9 @@
     <ClInclude Include="lib\NTPAsyncUPD\NTPAsyncUDP.h">
       <Filter>lib\NTPAsyncUDP</Filter>
     </ClInclude>
+    <ClInclude Include="lib\Ticker\Ticker.h">
+      <Filter>lib\Ticker</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AqvaServer.cpp">
@@ -234,6 +240,9 @@
     </ClCompile>
     <ClCompile Include="lib\NTPAsyncUPD\NTPAsyncUDP.cpp">
       <Filter>lib\NTPAsyncUDP</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Ticker\Ticker.cpp">
+      <Filter>lib\Ticker</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

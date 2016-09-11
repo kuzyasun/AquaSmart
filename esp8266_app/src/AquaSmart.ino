@@ -1,3 +1,4 @@
+#define DEBUG_WIFI
 #define AQUASMART_H
 #ifdef ESP8266
 extern "C" {
@@ -148,14 +149,14 @@ void setup(void) {
 
 	//turn on relay module
 	//output.write(RELAY_VCC_PIN, 1);
-
+	// timeModule->updateNtpTime();
 	Serial.println(timeModule->getNtpTimeString());
 }
 
 void loop(void) {
 	//server.loopServer();
-//	Serial.println(timeModule->getNtpTimeString());
-//	delay(1000);
+	Serial.println(timeModule->getNtpTimeString());
+	delay(1000);
 	//testing ext channels
 	//TestChannelsExtChannels(output);
 
