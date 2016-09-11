@@ -48,34 +48,142 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <None Include="platformio.ini" />
+    <None Include="src\AquaSmart.ino">
+      <Filter>Source Files</Filter>
+    </None>
     <None Include="src\Info.ino">
       <Filter>Source Files</Filter>
     </None>
     <None Include="src\Test.ino">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="src\AquaSmart.ino">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__vm\.AquaSmart.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="__vm\.esp8266_app.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="src\AqvaServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AqvaServerApiHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DebugTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SPIFFSEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TimeUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncTCP\AsyncPrinter.cpp">
+      <Filter>lib\ESPAsyncTCP</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCP.cpp">
+      <Filter>lib\ESPAsyncTCP</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCPbuffer.cpp">
+      <Filter>lib\ESPAsyncTCP</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncTCP\SyncClient.cpp">
+      <Filter>lib\ESPAsyncTCP</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncTCP\tcp_axtls.c">
+      <Filter>lib\ESPAsyncTCP</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncUDP\AsyncUDP.cpp">
+      <Filter>lib\ESPAsyncUDP</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncWebServer\AsyncEventSource.cpp">
+      <Filter>lib\ESPAsyncWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncWebServer\AsyncWebSocket.cpp">
+      <Filter>lib\ESPAsyncWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncWebServer\WebAuthentication.cpp">
+      <Filter>lib\ESPAsyncWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncWebServer\WebHandlers.cpp">
+      <Filter>lib\ESPAsyncWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncWebServer\WebRequest.cpp">
+      <Filter>lib\ESPAsyncWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncWebServer\WebResponses.cpp">
+      <Filter>lib\ESPAsyncWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ESPAsyncWebServer\WebServer.cpp">
+      <Filter>lib\ESPAsyncWebServer</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ext_digital\ExtDigitalOutput.cpp">
+      <Filter>lib\ext_digital</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ntp\ntp.c">
+      <Filter>lib\ntp</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\ntp\timezone.c">
+      <Filter>lib\ntp</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\NTPAsyncUPD\NTPAsyncUDP.cpp">
+      <Filter>lib\NTPAsyncUDP</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\NTPtimeESP\NTPtimeESP.cpp">
+      <Filter>lib\NTPtimeESP</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\rtc_module\RtcDateTime.cpp">
+      <Filter>lib\rtc_module</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\rtc_module\RtcDS1307.cpp">
+      <Filter>lib\rtc_module</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\rtc_module\RtcDS3231.cpp">
+      <Filter>lib\rtc_module</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\rtc_module\RtcUtility.cpp">
+      <Filter>lib\rtc_module</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Ticker\Ticker.cpp">
+      <Filter>lib\Ticker</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="src\AqvaServer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Config.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\ext_digital\ExtDigitalOutput.h">
-      <Filter>lib\ext_digital</Filter>
+    <ClInclude Include="src\Constants.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Modules.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TimeUtil.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\ArduinoJson\ArduinoJson.h">
       <Filter>lib\ArduinoJson</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ESPAsyncTCP\async_config.h">
+      <Filter>lib\ESPAsyncTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ESPAsyncTCP\AsyncPrinter.h">
+      <Filter>lib\ESPAsyncTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ESPAsyncTCP\ESPAsyncTCP.h">
+      <Filter>lib\ESPAsyncTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ESPAsyncTCP\ESPAsyncTCPbuffer.h">
+      <Filter>lib\ESPAsyncTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ESPAsyncTCP\SyncClient.h">
+      <Filter>lib\ESPAsyncTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ESPAsyncTCP\tcp_axtls.h">
+      <Filter>lib\ESPAsyncTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\ESPAsyncUDP\ESPAsyncUDP.h">
+      <Filter>lib\ESPAsyncUDP</Filter>
     </ClInclude>
     <ClInclude Include="lib\ESPAsyncWebServer\AsyncEventSource.h">
       <Filter>lib\ESPAsyncWebServer</Filter>
@@ -101,23 +209,14 @@
     <ClInclude Include="lib\ESPAsyncWebServer\WebResponseImpl.h">
       <Filter>lib\ESPAsyncWebServer</Filter>
     </ClInclude>
-    <ClInclude Include="lib\ESPAsyncTCP\async_config.h">
-      <Filter>lib\ESPAsyncTCP</Filter>
+    <ClInclude Include="lib\ext_digital\ExtDigitalOutput.h">
+      <Filter>lib\ext_digital</Filter>
     </ClInclude>
-    <ClInclude Include="lib\ESPAsyncTCP\AsyncPrinter.h">
-      <Filter>lib\ESPAsyncTCP</Filter>
+    <ClInclude Include="lib\ntp\ntp.h">
+      <Filter>lib\ntp</Filter>
     </ClInclude>
-    <ClInclude Include="lib\ESPAsyncTCP\ESPAsyncTCP.h">
-      <Filter>lib\ESPAsyncTCP</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\ESPAsyncTCP\ESPAsyncTCPbuffer.h">
-      <Filter>lib\ESPAsyncTCP</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\ESPAsyncTCP\SyncClient.h">
-      <Filter>lib\ESPAsyncTCP</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\ESPAsyncTCP\tcp_axtls.h">
-      <Filter>lib\ESPAsyncTCP</Filter>
+    <ClInclude Include="lib\NTPAsyncUPD\NTPAsyncUDP.h">
+      <Filter>lib\NTPAsyncUDP</Filter>
     </ClInclude>
     <ClInclude Include="lib\NTPtimeESP\NTPtimeESP.h">
       <Filter>lib\NTPtimeESP</Filter>
@@ -137,112 +236,8 @@
     <ClInclude Include="lib\rtc_module\RtcUtility.h">
       <Filter>lib\rtc_module</Filter>
     </ClInclude>
-    <ClInclude Include="lib\ntp\ntp.h">
-      <Filter>lib\ntp</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Modules.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Constants.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\TimeUtil.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\ESPAsyncUDP\ESPAsyncUDP.h">
-      <Filter>lib\ESPAsyncUDP</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\NTPAsyncUPD\NTPAsyncUDP.h">
-      <Filter>lib\NTPAsyncUDP</Filter>
-    </ClInclude>
     <ClInclude Include="lib\Ticker\Ticker.h">
       <Filter>lib\Ticker</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\AqvaServer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DebugTests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SPIFFSEditor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ext_digital\ExtDigitalOutput.cpp">
-      <Filter>lib\ext_digital</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ESPAsyncWebServer\AsyncEventSource.cpp">
-      <Filter>lib\ESPAsyncWebServer</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ESPAsyncWebServer\AsyncWebSocket.cpp">
-      <Filter>lib\ESPAsyncWebServer</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ESPAsyncWebServer\WebAuthentication.cpp">
-      <Filter>lib\ESPAsyncWebServer</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ESPAsyncWebServer\WebHandlers.cpp">
-      <Filter>lib\ESPAsyncWebServer</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ESPAsyncWebServer\WebRequest.cpp">
-      <Filter>lib\ESPAsyncWebServer</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ESPAsyncWebServer\WebResponses.cpp">
-      <Filter>lib\ESPAsyncWebServer</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ESPAsyncWebServer\WebServer.cpp">
-      <Filter>lib\ESPAsyncWebServer</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ESPAsyncTCP\AsyncPrinter.cpp">
-      <Filter>lib\ESPAsyncTCP</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCP.cpp">
-      <Filter>lib\ESPAsyncTCP</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCPbuffer.cpp">
-      <Filter>lib\ESPAsyncTCP</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ESPAsyncTCP\SyncClient.cpp">
-      <Filter>lib\ESPAsyncTCP</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ESPAsyncTCP\tcp_axtls.c">
-      <Filter>lib\ESPAsyncTCP</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\NTPtimeESP\NTPtimeESP.cpp">
-      <Filter>lib\NTPtimeESP</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\rtc_module\RtcDateTime.cpp">
-      <Filter>lib\rtc_module</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\rtc_module\RtcDS1307.cpp">
-      <Filter>lib\rtc_module</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\rtc_module\RtcDS3231.cpp">
-      <Filter>lib\rtc_module</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\rtc_module\RtcUtility.cpp">
-      <Filter>lib\rtc_module</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AqvaServerApiHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ntp\ntp.c">
-      <Filter>lib\ntp</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ntp\timezone.c">
-      <Filter>lib\ntp</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TimeUtil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\ESPAsyncUDP\AsyncUDP.cpp">
-      <Filter>lib\ESPAsyncUDP</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\NTPAsyncUPD\NTPAsyncUDP.cpp">
-      <Filter>lib\NTPAsyncUDP</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\Ticker\Ticker.cpp">
-      <Filter>lib\Ticker</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

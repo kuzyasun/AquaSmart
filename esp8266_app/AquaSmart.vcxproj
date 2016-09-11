@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Path>D:\\development\\python27\\;D:\\development\\python27\\Scripts;C:\\ProgramData\\Oracle\\Java\\javapath;C:\\Program Files (x86)\\Parallels\\Parallels Tools\\Applications;C:\\Program Files (x86)\\Intel\\iCLS Client\\;C:\\Program Files\\Intel\\iCLS Client\\;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\Skype\\Phone\\;C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\;C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\;D:\\development\\android-sdk\\tools;D:\\development\\jdk8;D:\\development\\android-sdk\\platform-tools;C:\\Program Files (x86)\\GtkSharp\\2.12\\bin;C:\\Program Files\\Intel\\Intel(R) Management Engine Components\\DAL;C:\\Program Files\\Intel\\Intel(R) Management Engine Components\\IPT;C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\DAL;C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\IPT;D:\\development\\Git\\bin;D:\\development\\Git LFS;C:\\Program Files\\TortoiseSVN\\bin;D:\\development\\ant\\bin;D:\\development\\Git;C:\\Program Files\\TortoiseGit\\bin;C:\\Program Files\\nodejs\\;C:\\HashiCorp\\Vagrant\\bin;C:\\Program Files\\LLVM\\bin;c:\\Program Files\\NVIDIA Corporation\\NVSMI\\;D:\\development\\CMake\\bin;c:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\;C:\\Program Files\\OpenSSH\\bin;C:\\Program Files (x86)\\Google\\Chrome\\Application;C:\\Program Files (x86)\\Intel\\iCLS Client\\;C:\\Program Files\\Intel\\iCLS Client\\;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\Skype\\Phone\\;C:\\Windows\\system32\\config\\systemprofile\\.dnx\\bin;C:\\Program Files\\Microsoft DNX\\Dnvm\\;C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\;C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\;D:\\development\\android-sdk\\tools;D:\\development\\jdk8;D:\\development\\android-sdk\\platform-tools;C:\\Program Files (x86)\\GtkSharp\\2.12\\bin;C:\\Program Files\\Intel\\Intel(R) Management Engine Components\\DAL;C:\\Program Files\\Intel\\Intel(R) Management Engine Components\\IPT;C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\DAL;C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\IPT;C:\\Program Files\\TortoiseGit\\bin;D:\\development\\Git\\cmd;C:\\Users\\kuzya\\AppData\\Roaming\\npm;C:\\Users\\kuzya\\AppData\\Local\\atom\\bin</Path>
+  </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -12,24 +15,18 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C5F80730-F44F-4478-BDAE-6634EFC2CA88}</ProjectGuid>
-    <RootNamespace>$safeprojectname$</RootNamespace>
-    <ProjectName>AquaSmart</ProjectName>
+    <Keyword>MakeFileProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>
-    </PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>
-    </PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -41,42 +38,59 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\projects\esp8266\AquaSmart\esp8266_app\lib\Ticker;D:\projects\esp8266\AquaSmart\esp8266_app\lib\NTPAsyncUPD;D:\projects\esp8266\AquaSmart\esp8266_app\lib\ESPAsyncUDP;D:\projects\esp8266\AquaSmart\esp8266_app\lib\ext_digital;D:\projects\esp8266\AquaSmart\esp8266_app\lib\ntp;D:\projects\esp8266\AquaSmart\esp8266_app\lib\rtc_module;D:\projects\esp8266\AquaSmart\esp8266_app\lib\NTPtimeESP;D:\projects\esp8266\AquaSmart\esp8266_app\lib\ESPAsyncWebServer;D:\projects\esp8266\AquaSmart\esp8266_app\lib\ESPAsyncTCP;D:\projects\esp8266\AquaSmart\esp8266_app\lib\ArduinoJson;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\libraries\ArduinoOTA;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\libraries\ArduinoOTA\utility;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\libraries\ESP8266mDNS;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\libraries\ESP8266mDNS\utility;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\libraries\ESP8266WiFi\src;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\libraries\ESP8266WiFi\src\utility;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\libraries\Hash\src;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\libraries\Hash\src\utility;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\libraries\Wire;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\libraries\Wire\utility;C:\Program Files (x86)\Arduino\libraries;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\libraries;C:\Users\kuzya\Documents\Arduino\libraries;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\cores\esp8266;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\cores\esp8266\libb64;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\cores\esp8266\spiffs;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\cores\esp8266\umm_malloc;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\variants\generic;D:\projects\esp8266\AquaSmart\esp8266_app;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0/tools/sdk/include;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0/tools/sdk/lwip/include;{build.path}/core;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\1.20.0-26-gb404fb9-2\xtensa-lx106-elf\include\c++\4.8.2;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\1.20.0-26-gb404fb9-2\xtensa-lx106-elf\include\c++\4.8.2\xtensa-lx106-elf;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\1.20.0-26-gb404fb9-2\xtensa-lx106-elf\include;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\1.20.0-26-gb404fb9-2\lib\gcc\xtensa-lx106-elf\4.8.2\include;C:\Users\kuzya\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\tools\sdk\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>D:\projects\esp8266\AquaSmart\esp8266_app\__vm\.esp8266_app.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-      <PreprocessorDefinitions>__ESP8266_ESp8266__;__ESP8266_ESP8266__;_VMDEBUG=1;__ets__;ICACHE_FLASH;F_CPU=80000000L;LWIP_OPEN_SRC;DEBUG_ESP_PORT=Serial;DEBUG_ESP_CORE;DEBUG_ESP_SSL;DEBUG_ESP_WIFI;DEBUG_ESP_HTTP_CLIENT;DEBUG_ESP_HTTP_UPDATE;DEBUG_ESP_HTTP_SERVER;DEBUG_ESP_UPDATER;DEBUG_ESP_OTA;DEBUG_TLS_MEM;ARDUINO=106011;ARDUINO_ESP8266_ESP01;ARDUINO_ARCH_ESP8266;ESP8266;__cplusplus=201103L;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeBuildCommandLine>platformio -f -c visualstudio run</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>platformio -f -c visualstudio run --target clean</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>ARDUINO=20300;LWIP_OPEN_SRC;F_CPU=80000000L;__ets__;ICACHE_FLASH;PLATFORMIO=030001;ESP8266;ARDUINO_ARCH_ESP8266;ARDUINO_ESP8266_ESP12</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>D:\projects\esp8266\AquaSmart\esp8266_app\lib\Ticker;D:\projects\esp8266\AquaSmart\esp8266_app\lib\rtc_module;D:\projects\esp8266\AquaSmart\esp8266_app\lib\NTPtimeESP;D:\projects\esp8266\AquaSmart\esp8266_app\lib\NTPAsyncUPD;D:\projects\esp8266\AquaSmart\esp8266_app\lib\ntp;D:\projects\esp8266\AquaSmart\esp8266_app\lib\ext_digital;D:\projects\esp8266\AquaSmart\esp8266_app\lib\ESPAsyncWebServer;D:\projects\esp8266\AquaSmart\esp8266_app\lib\ESPAsyncUDP;D:\projects\esp8266\AquaSmart\esp8266_app\lib\ESPAsyncTCP;D:\projects\esp8266\AquaSmart\esp8266_app\lib\ArduinoJson;D:\projects\esp8266\AquaSmart\esp8266_app\lib;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\tools\sdk\include;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\tools\sdk\lwip\include;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\cores\esp8266;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\variants\nodemcu;d:\projects\esp8266\AquaSmart\income_sources\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ArduinoOTA;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\DNSServer\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\EEPROM;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266AVRISP\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266HTTPClient\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266HTTPUpdateServer\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266NetBIOS;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266SSDP;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266WebServer\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266WiFi\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266WiFiMesh\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266httpUpdate\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266mDNS;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\Ethernet\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\GDBStub\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\Hash\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\SD\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\SPI;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\SPISlave\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\Servo\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\SoftwareSerial;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\TFT_Touch_Shield_V2;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\Ticker;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\Wire;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\esp8266\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\toolchain-xtensa\xtensa-lx106-elf\include;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\toolchain-xtensa\lib\gcc\xtensa-lx106-elf\4.8.2\include;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\toolchain-xtensa\lib\gcc\xtensa-lx106-elf\4.8.2\include-fixed</NMakeIncludeSearchPath>
+    <LibraryPath>D:\projects\esp8266\AquaSmart\esp8266_app\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeBuildCommandLine>platformio run</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>platformio run --target clean</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>ARDUINO=20300;LWIP_OPEN_SRC;F_CPU=80000000L;__ets__;ICACHE_FLASH;PLATFORMIO=030001;ESP8266;ARDUINO_ARCH_ESP8266;ARDUINO_ESP8266_ESP12</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\tools\sdk\include;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\tools\sdk\lwip\include;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\cores\esp8266;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\variants\nodemcu;d:\projects\esp8266\AquaSmart\income_sources\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ArduinoOTA;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\DNSServer\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\EEPROM;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266AVRISP\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266HTTPClient\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266HTTPUpdateServer\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266NetBIOS;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266SSDP;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266WebServer\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266WiFi\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266WiFiMesh\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266httpUpdate\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\ESP8266mDNS;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\Ethernet\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\GDBStub\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\Hash\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\SD\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\SPI;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\SPISlave\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\Servo\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\SoftwareSerial;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\TFT_Touch_Shield_V2;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\Ticker;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\Wire;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\framework-arduinoespressif\libraries\esp8266\src;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\toolchain-xtensa\xtensa-lx106-elf\include;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\toolchain-xtensa\lib\gcc\xtensa-lx106-elf\4.8.2\include;$(HOMEDRIVE)$(HOMEPATH)\.platformio\packages\toolchain-xtensa\lib\gcc\xtensa-lx106-elf\4.8.2\include-fixed</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-    </ClCompile>
-    <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
   <ItemGroup>
-    <ProjectCapability Include="VisualMicro" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="platformio.ini" />
     <None Include="src\AquaSmart.ino" />
     <None Include="src\Info.ino" />
     <None Include="src\Test.ino" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="lib\ESPAsyncTCP\AsyncPrinter.cpp" />
+    <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCP.cpp" />
+    <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCPbuffer.cpp" />
+    <ClCompile Include="lib\ESPAsyncTCP\SyncClient.cpp" />
+    <ClCompile Include="lib\ESPAsyncTCP\tcp_axtls.c" />
+    <ClCompile Include="lib\ESPAsyncUDP\AsyncUDP.cpp" />
+    <ClCompile Include="lib\ESPAsyncWebServer\AsyncEventSource.cpp" />
+    <ClCompile Include="lib\ESPAsyncWebServer\AsyncWebSocket.cpp" />
+    <ClCompile Include="lib\ESPAsyncWebServer\WebAuthentication.cpp" />
+    <ClCompile Include="lib\ESPAsyncWebServer\WebHandlers.cpp" />
+    <ClCompile Include="lib\ESPAsyncWebServer\WebRequest.cpp" />
+    <ClCompile Include="lib\ESPAsyncWebServer\WebResponses.cpp" />
+    <ClCompile Include="lib\ESPAsyncWebServer\WebServer.cpp" />
+    <ClCompile Include="lib\ext_digital\ExtDigitalOutput.cpp" />
+    <ClCompile Include="lib\NTPAsyncUPD\NTPAsyncUDP.cpp" />
+    <ClCompile Include="lib\NTPtimeESP\NTPtimeESP.cpp" />
+    <ClCompile Include="lib\ntp\ntp.c" />
+    <ClCompile Include="lib\ntp\timezone.c" />
+    <ClCompile Include="lib\rtc_module\RtcDateTime.cpp" />
+    <ClCompile Include="lib\rtc_module\RtcDS1307.cpp" />
+    <ClCompile Include="lib\rtc_module\RtcDS3231.cpp" />
+    <ClCompile Include="lib\rtc_module\RtcUtility.cpp" />
+    <ClCompile Include="lib\Ticker\Ticker.cpp" />
+    <ClCompile Include="src\AqvaServer.cpp" />
+    <ClCompile Include="src\AqvaServerApiHandler.cpp" />
+    <ClCompile Include="src\DebugTests.cpp" />
+    <ClCompile Include="src\SPIFFSEditor.cpp" />
+    <ClCompile Include="src\TimeUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\ArduinoJson\ArduinoJson.h" />
@@ -110,43 +124,5 @@
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Modules.h" />
     <ClInclude Include="src\TimeUtil.h" />
-    <ClInclude Include="__vm\.AquaSmart.vsarduino.h" />
-    <ClInclude Include="__vm\.esp8266_app.vsarduino.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="lib\ESPAsyncTCP\AsyncPrinter.cpp" />
-    <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCP.cpp" />
-    <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCPbuffer.cpp" />
-    <ClCompile Include="lib\ESPAsyncTCP\SyncClient.cpp" />
-    <ClCompile Include="lib\ESPAsyncTCP\tcp_axtls.c" />
-    <ClCompile Include="lib\ESPAsyncUDP\AsyncUDP.cpp" />
-    <ClCompile Include="lib\ESPAsyncWebServer\AsyncEventSource.cpp" />
-    <ClCompile Include="lib\ESPAsyncWebServer\AsyncWebSocket.cpp" />
-    <ClCompile Include="lib\ESPAsyncWebServer\WebAuthentication.cpp" />
-    <ClCompile Include="lib\ESPAsyncWebServer\WebHandlers.cpp" />
-    <ClCompile Include="lib\ESPAsyncWebServer\WebRequest.cpp" />
-    <ClCompile Include="lib\ESPAsyncWebServer\WebResponses.cpp" />
-    <ClCompile Include="lib\ESPAsyncWebServer\WebServer.cpp" />
-    <ClCompile Include="lib\ext_digital\ExtDigitalOutput.cpp" />
-    <ClCompile Include="lib\NTPAsyncUPD\NTPAsyncUDP.cpp" />
-    <ClCompile Include="lib\NTPtimeESP\NTPtimeESP.cpp" />
-    <ClCompile Include="lib\ntp\ntp.c" />
-    <ClCompile Include="lib\ntp\timezone.c" />
-    <ClCompile Include="lib\rtc_module\RtcDateTime.cpp" />
-    <ClCompile Include="lib\rtc_module\RtcDS1307.cpp" />
-    <ClCompile Include="lib\rtc_module\RtcDS3231.cpp" />
-    <ClCompile Include="lib\rtc_module\RtcUtility.cpp" />
-    <ClCompile Include="lib\Ticker\Ticker.cpp" />
-    <ClCompile Include="src\AqvaServer.cpp" />
-    <ClCompile Include="src\AqvaServerApiHandler.cpp" />
-    <ClCompile Include="src\DebugTests.cpp" />
-    <ClCompile Include="src\SPIFFSEditor.cpp" />
-    <ClCompile Include="src\TimeUtil.cpp" />
-  </ItemGroup>
-  <PropertyGroup>
-    <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
 </Project>
