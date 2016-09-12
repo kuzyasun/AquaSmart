@@ -1,7 +1,14 @@
-#include <ArduinoJson.h>
-#include "FS.h"
+#include "Config.h"
+#define AQUASMART_H
+#ifdef ESP8266
+extern "C" {
+#include "user_interface.h"
+}
+#endif
+
 
 bool loadConfig() {
+
 	File configFile = SPIFFS.open("/config.json", "r");
 	if (!configFile) {
 		Serial.println("Failed to open config file");
@@ -30,24 +37,37 @@ bool loadConfig() {
 		return false;
 	}
 
-	const char* serverName = json["serverName"];
-	const char* accessToken = json["accessToken"];
+	http_username = json["http_username"].asString();
+	http_password = json["http_password"].asString();
 
-	// Real world application would store these values in some variables for
-	// later use.
+	ssid = json["ssid"].asString();
+	password = json["password"].asString();
 
-	Serial.print("Loaded serverName: ");
-	Serial.println(serverName);
-	Serial.print("Loaded accessToken: ");
-	Serial.println(accessToken);
+	ac_ssid = json["ac_ssid"].asString();
+	ac_pwd = json["ac_pwd"].asString();
+	hostName = json["hostName"].asString();
+	accessToken = json["accessToken"].asString();
+
+	Serial.print("Config loaded");
+	json.printTo(Serial);
+
 	return true;
 }
 
 bool saveConfig() {
 	StaticJsonBuffer<200> jsonBuffer;
 	JsonObject& json = jsonBuffer.createObject();
-	json["serverName"] = "api.example.com";
-	json["accessToken"] = "128du9as8du12eoue8da98h123ueh9h98";
+
+	json["http_username"] = http_username;
+	json["http_password"] = http_password;
+
+	json["ssid"] = ssid;
+	json["password"] = password;
+
+	json["ac_ssid"] = ac_ssid;
+	json["ac_pwd"] = ac_pwd;
+	json["hostName"] = hostName;
+	json["accessToken"] = accessToken;
 
 	File configFile = SPIFFS.open("/config.json", "w");
 	if (!configFile) {

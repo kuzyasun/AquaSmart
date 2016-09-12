@@ -61,7 +61,6 @@
     <None Include="src\AquaSmart.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Debug.cpp" />
     <ClCompile Include="lib\ESPAsyncTCP\AsyncPrinter.cpp" />
     <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCP.cpp" />
     <ClCompile Include="lib\ESPAsyncTCP\ESPAsyncTCPbuffer.cpp" />
@@ -87,6 +86,8 @@
     <ClCompile Include="lib\Ticker\Ticker.cpp" />
     <ClCompile Include="src\AqvaServer.cpp" />
     <ClCompile Include="src\AqvaServerApiHandler.cpp" />
+    <ClCompile Include="src\Config.cpp" />
+    <ClCompile Include="src\Debug.cpp" />
     <ClCompile Include="src\DebugTests.cpp" />
     <ClCompile Include="src\SPIFFSEditor.cpp" />
     <ClCompile Include="src\TimeUtil.cpp" />
@@ -118,9 +119,11 @@
     <ClInclude Include="lib\rtc_module\RtcTemperature.h" />
     <ClInclude Include="lib\rtc_module\RtcUtility.h" />
     <ClInclude Include="lib\Ticker\Ticker.h" />
+    <ClInclude Include="src\AquaSmart.h" />
     <ClInclude Include="src\AqvaServer.h" />
-    <ClInclude Include="src\Config.hpp" />
+    <ClInclude Include="src\Config.h" />
     <ClInclude Include="src\Constants.h" />
+    <ClInclude Include="src\Debug.h" />
     <ClInclude Include="src\Modules.h" />
     <ClInclude Include="src\TimeUtil.h" />
   </ItemGroup>

@@ -24,6 +24,7 @@ static const String GET_RTC_TIME = "get_rtc_time";
 static const String GET_NTP_TIME = "get_ntp_time";
 static const String RESTART = "restart";
 static const String RESET = "reset";
+static const String SYSTEM_SETTINGS = "system_settings";
 
 #define DELAY 1000 /* milliseconds */
 
@@ -86,6 +87,34 @@ public:
 		root.printTo(*response);
 		request->send(response);
 	}
+	
+	void handleSystemSettings(AsyncWebServerRequest *request)
+	{
+		if (request->method() == HTTP_GET) {			
+			AsyncWebServerResponse *response = request->beginResponse(SPIFFS, configFileUrl, "text/json");
+			request->send(response);
+			return;
+		}else if (request->method() == HTTP_POST)
+		{
+			Serial.println( request->contentType());
+			Serial.println( request->contentLength());
+			request->send(500);
+		}
+
+		request->send(500);
+	}
+
+	void handleBody(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total) {
+		if (!index) {
+			Serial.printf("BodyStart: %u B\n", total);
+		}
+		for (size_t i = 0; i<len; i++) {
+			Serial.write(data[i]);
+		}
+		if (index + len == total) {
+			Serial.printf("BodyEnd: %u B\n", total);
+		}
+	}
 
 	void handleGetNtpTime(AsyncWebServerRequest *request)
 	{
@@ -106,7 +135,7 @@ public:
 			return request->requestAuthentication();
 		String command = request->url().substring(startIndex);
 
-		Serial.println(command);
+		Serial.println("Api command: " + command);
 
 		if (command.equalsIgnoreCase(RESTART))
 		{
@@ -133,6 +162,12 @@ public:
 		if (command.equalsIgnoreCase(GET_RTC_TIME))
 		{
 			handleGetRtcTime(request);
+			return;
+		}
+		
+		if (command.equalsIgnoreCase(SYSTEM_SETTINGS))
+		{
+			handleSystemSettings(request);
 			return;
 		}
 

@@ -73,9 +73,19 @@ String TimeUtil::getNtpTimeString()
 
 void TimeUtil::updateNtpTime()
 {
-	ntmTimeUpdater.once(3, ntpTimeUpdate, this);
+//	ntmTimeUpdater.once(3, ntpTimeUpdate, this);
+	_updateNtpTime = true;
 }
 
+void TimeUtil::handle()
+{
+	if(_updateNtpTime)
+	{
+		_updateNtpTime = false;
+
+		getNtpTime();
+	}
+}
 
 
 strDateTime TimeUtil::getRtcTime()

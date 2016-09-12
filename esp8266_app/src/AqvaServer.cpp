@@ -48,7 +48,7 @@ void AqvaServer::setupServer() {
 		else if (error == OTA_END_ERROR) events->send("End Failed", "ota");
 	});
 
-	ArduinoOTA.setHostname(hostName);
+	ArduinoOTA.setHostname(hostName.c_str());
 	ArduinoOTA.begin();
 
 	MDNS.addService("http", "tcp", 80);
@@ -83,6 +83,10 @@ void AqvaServer::setupServer() {
 		request->send(response);
 	});
 
+	/*server->on(configFileUrl, [&](AsyncWebServerRequest *request) {		
+		request->send(404);
+	});
+*/
 	server->serveStatic("/", SPIFFS, "/").setDefaultFile("index.htm");
 
 	server->onNotFound([](AsyncWebServerRequest *request) {

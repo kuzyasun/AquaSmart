@@ -17,6 +17,8 @@ class TimeUtil;
 class TimeUtil
 {
 private:
+	bool _updateNtpTime;
+	bool _syncRtcTime;
 public:
 	TimeUtil();
 	void printRtcDateTime(const RtcDateTime& dt);
@@ -35,5 +37,6 @@ public:
 	void setupRtc();
 	Ticker ntmTimeUpdater;
 	void updateNtpTime();
+	void handle();
 };
 #endif

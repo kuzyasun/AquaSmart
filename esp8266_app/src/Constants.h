@@ -4,15 +4,17 @@
 extern const char* DEVICE_ID;
 extern const char* FIRMWARE_VERSION;
 
-extern char* http_username;
-extern char* http_password;
+extern String http_username;
+extern String http_password;
 
-extern char* ssid;
-extern char* password;
+extern String ssid;
+extern String password;
 
-extern char* ac_ssid;
-extern char* ac_pwd;
-extern char * hostName;
+extern String ac_ssid;
+extern String ac_pwd;
+extern String hostName;
+extern String accessToken;
+extern String configFileUrl;
 
 extern const int totalExtDigitalPins;
 extern const byte red_signal_pin;
@@ -37,3 +39,4 @@ extern const byte RELAY_VCC_PIN;
 extern const byte RELAY_VCC_PIN;
 extern const byte PIN_RTC_SDA;
 extern const byte PIN_RTC_SCL;
+extern const byte PIN_RESET_TO_DEFAULT;

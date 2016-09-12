@@ -1,32 +1,20 @@
-
-#define AQUASMART_H
-#ifdef ESP8266
-extern "C" {
-#include "user_interface.h"
-}
-#endif
-
-#include <Wire.h>
-#include <ESP8266WiFi.h>
-#include <WiFiClient.h>
-#include "ExtDigitalOutput.h"
-#include "AqvaServer.h"
-#include "Constants.h"
-#include "Modules.h"
-#include "TimeUtil.h"
+#include "AquaSmart.h"
 
 const char* DEVICE_ID = "aquasmart";
 const char* FIRMWARE_VERSION = "1.0.0";
 
-char* http_username = "admin";
-char* http_password = "admin";
+String http_username = "admin";
+String http_password = "admin";
 
-char* ssid = "902studio";
-char* password = "Emc902NetWifiNew";
+String ssid = "902studio";
+String password = "Emc902NetWifiNew";
 
-char* ac_ssid = "AqvaLightAP";
-char* ac_pwd = "12345678";
-char* hostName = "aquamart.local";
+String ac_ssid = "AqvaLightAP";
+String ac_pwd = "12345678";
+String hostName = "aquamart.local";
+String accessToken = "128du9as7du12goue8wa98h12fueh9h98";
+String configFileUrl = "/config.json";
+
 const int totalExtDigitalPins = 16;
 const byte red_signal_pin = 0;
 const byte green_signal_pin = 8;
@@ -50,6 +38,8 @@ const byte E14 = 15;
 const byte RELAY_VCC_PIN = 15;
 const byte PIN_RTC_SDA = 4;
 const byte PIN_RTC_SCL = 5;
+//TODO change to rx or tx;
+const byte PIN_RESET_TO_DEFAULT = 4;
 
 
 int i = 0;
@@ -69,24 +59,23 @@ void setupWifi() {
 	Serial.println("Configuring access point...");
 	WiFi.disconnect(0);
 	/* You can remove the password parameter if you want the AP to be open. */
-	WiFi.hostname(hostName);
-	wifi_station_set_hostname(hostName);
-	WiFi.mode(WIFI_STA);
-	/*WiFi.mode(WIFI_AP_STA);
-   WiFi.softAP(ac_ssid, ac_pwd);
-   IPAddress myIP = WiFi.softAPIP();
-   Serial.println("AP IP address: ");
-   Serial.println(myIP);
-   //
-   softap_config config;
-   wifi_softap_get_config(&config);
-   print_softap_config(Serial, config);*/
+//	WiFi.hostname(hostName);
+//	wifi_station_set_hostname((char *)hostName.c_str());
+	//	WiFi.mode(WIFI_STA);
+	WiFi.mode(WIFI_AP_STA);
+	WiFi.softAP(ac_ssid.c_str(), ac_pwd.c_str());
+	IPAddress myIP = WiFi.softAPIP();
+	Serial.println("AP IP address: ");
+	Serial.println(myIP);
+	//
+	softap_config config;
+	wifi_softap_get_config(&config);
+	print_softap_config(Serial, config);
 
+	// set_event_handler_cb_stream(Serial);
+	wifi_set_event_handler_cb(wifi_event_handler_cb);
 
-   // set_event_handler_cb_stream(Serial);
-//	wifi_set_event_handler_cb(wifi_event_handler_cb);
-
-	WiFi.begin(ssid, password);
+	WiFi.begin((char *)ssid.c_str(), (char *)password.c_str());
 	// Wait for connection
 
 	while (WiFi.status() != WL_CONNECTED) {
@@ -117,6 +106,41 @@ void setupWifi() {
 //	print_wifi_general(Serial);
 }
 
+void setupConfig()
+{
+	Serial.println("Mounting FS...");
+
+	if (!SPIFFS.begin()) {
+		Serial.println("Failed to mount file system");
+		return;
+	}
+
+	pinMode(PIN_RESET_TO_DEFAULT, INPUT);
+	int reset = digitalRead(PIN_RESET_TO_DEFAULT);
+	if(reset == HIGH)
+	{
+		Serial.println("Reseting device to default settings");
+		if (!saveConfig()) 
+			Serial.println("Failed to save config");		
+		else 
+			Serial.println("Config saved");			
+	}
+
+	if (!saveConfig()) {
+		Serial.println("Failed to save config");
+	}
+	else {
+		Serial.println("Config saved");
+	}
+
+	if (!loadConfig()) {
+		Serial.println("Failed to load config");
+	}
+	else {
+		Serial.println("Config loaded");
+	}
+}
+
 
 void setup(void) {
 	Serial.begin(115200);
@@ -131,6 +155,8 @@ void setup(void) {
 
 	output.write(red_signal_pin, 0);
 	output.write(green_signal_pin, 1);
+
+	setupConfig();
 
 	timeModule->setup();
 	setupWifi();
@@ -147,12 +173,11 @@ void setup(void) {
 
 void loop(void) {
 	//server.loopServer();
-	Serial.println(timeModule->getNtpTimeString());
-	delay(1000);
+//	Serial.println(timeModule->getNtpTimeString());
+//	delay(1000);
 	//testing ext channels
 	//TestChannelsExtChannels(output);
-
-
+	timeModule->handle();
 }
 
 void TestChannelsExtChannels(ExtDigitalOutput output) {
@@ -214,261 +239,4 @@ void TestChannelsExtChannels(ExtDigitalOutput output) {
 	// output.write(E14, 0);
 }
 
-// Set up output serial port(could be a SoftwareSerial
-// if really wanted).
 
-	Stream& ehConsolePort(Serial);
-
-// Wired to the blue LED on an ESP-01 board, active LOW.
-//
-// Cannot be used simultaneously with Serial.print/println()
-// calls, as TX is wired to the same pin.
-//
-// UNLESS: You swap the TX pin using the alternate pinout.
-const uint8_t LED_PIN = 1;
-
-const char * const RST_REASONS[] =
-{
-	"REASON_DEFAULT_RST",
-	"REASON_WDT_RST",
-	"REASON_EXCEPTION_RST",
-	"REASON_SOFT_WDT_RST",
-	"REASON_SOFT_RESTART",
-	"REASON_DEEP_SLEEP_AWAKE",
-	"REASON_EXT_SYS_RST"
-};
-
-const char * const FLASH_SIZE_MAP_NAMES[] =
-{
-	"FLASH_SIZE_4M_MAP_256_256",
-	"FLASH_SIZE_2M",
-	"FLASH_SIZE_8M_MAP_512_512",
-	"FLASH_SIZE_16M_MAP_512_512",
-	"FLASH_SIZE_32M_MAP_512_512",
-	"FLASH_SIZE_16M_MAP_1024_1024",
-	"FLASH_SIZE_32M_MAP_1024_1024"
-};
-
-const char * const OP_MODE_NAMES[]
-{
-	"NULL_MODE",
-	"STATION_MODE",
-	"SOFTAP_MODE",
-	"STATIONAP_MODE"
-};
-
-const char * const AUTH_MODE_NAMES[]
-{
-	"AUTH_OPEN",
-	"AUTH_WEP",
-	"AUTH_WPA_PSK",
-	"AUTH_WPA2_PSK",
-	"AUTH_WPA_WPA2_PSK",
-	"AUTH_MAX"
-};
-
-const char * const PHY_MODE_NAMES[]
-{
-	"",
-	"PHY_MODE_11B",
-	"PHY_MODE_11G",
-	"PHY_MODE_11N"
-};
-
-//old walues from example
-//const char * const EVENT_NAMES[]
-//{
-//    "EVENT_STAMODE_CONNECTED",
-//    "EVENT_STAMODE_DISCONNECTED",
-//    "EVENT_STAMODE_AUTHMODE_CHANGE",
-//    "EVENT_STAMODE_GOT_IP",
-//    "EVENT_SOFTAPMODE_STACONNECTED",
-//    "EVENT_SOFTAPMODE_STADISCONNECTED",
-//    "EVENT_MAX"
-//};
-
-const char * const EVENT_NAMES[]
-{
-	"EVENT_STAMODE_CONNECTED",
-	"EVENT_STAMODE_DISCONNECTED",
-	"EVENT_STAMODE_AUTHMODE_CHANGE",
-	"EVENT_STAMODE_GOT_IP",
-	"EVENT_STAMODE_DHCP_TIMEOUT",
-	"EVENT_SOFTAPMODE_STACONNECTED",
-	"EVENT_SOFTAPMODE_STADISCONNECTED",
-	"EVENT_SOFTAPMODE_PROBEREQRECVED",
-	"EVENT_MAX"
-};
-
-
-const char * const EVENT_REASONS[]
-{
-	"",
-	"REASON_UNSPECIFIED",
-	"REASON_AUTH_EXPIRE",
-	"REASON_AUTH_LEAVE",
-	"REASON_ASSOC_EXPIRE",
-	"REASON_ASSOC_TOOMANY",
-	"REASON_NOT_AUTHED",
-	"REASON_NOT_ASSOCED",
-	"REASON_ASSOC_LEAVE",
-	"REASON_ASSOC_NOT_AUTHED",
-	"REASON_DISASSOC_PWRCAP_BAD",
-	"REASON_DISASSOC_SUPCHAN_BAD",
-	"REASON_IE_INVALID",
-	"REASON_MIC_FAILURE",
-	"REASON_4WAY_HANDSHAKE_TIMEOUT",
-	"REASON_GROUP_KEY_UPDATE_TIMEOUT",
-	"REASON_IE_IN_4WAY_DIFFERS",
-	"REASON_GROUP_CIPHER_INVALID",
-	"REASON_PAIRWISE_CIPHER_INVALID",
-	"REASON_AKMP_INVALID",
-	"REASON_UNSUPP_RSN_IE_VERSION",
-	"REASON_INVALID_RSN_IE_CAP",
-	"REASON_802_1X_AUTH_FAILED",
-	"REASON_CIPHER_SUITE_REJECTED",
-};
-
-const char * const EVENT_REASONS_200[]
-{
-	"REASON_BEACON_TIMEOUT",
-	"REASON_NO_AP_FOUND"
-};
-
-void wifi_event_handler_cb(System_Event_t * event)
-{
-	ehConsolePort.print(" (");
-	ehConsolePort.print(EVENT_NAMES[event->event] + event->event);
-
-	switch (event->event)
-	{
-	case EVENT_STAMODE_CONNECTED:
-		break;
-	case EVENT_STAMODE_DISCONNECTED:
-		break;
-	case EVENT_STAMODE_AUTHMODE_CHANGE:
-		break;
-	case EVENT_STAMODE_GOT_IP:
-		break;
-	case EVENT_SOFTAPMODE_STACONNECTED:
-	case EVENT_SOFTAPMODE_STADISCONNECTED:
-	{
-		char mac[32] = { 0 };
-		snprintf(mac, 32, MACSTR ", aid: %d", MAC2STR(event->event_info.sta_connected.mac), event->event_info.sta_connected.aid);
-
-		ehConsolePort.print(mac);
-	}
-	break;
-	}
-
-	ehConsolePort.println(")");
-}
-
-void print_softap_config(Stream & consolePort, softap_config const& config)
-{
-	consolePort.println();
-	consolePort.println(F("SoftAP Configuration"));
-	consolePort.println(F("--------------------"));
-
-	consolePort.print(F("ssid:            "));
-	consolePort.println((char *)config.ssid);
-
-	consolePort.print(F("password:        "));
-	consolePort.println((char *)config.password);
-
-	consolePort.print(F("ssid_len:        "));
-	consolePort.println(config.ssid_len);
-
-	consolePort.print(F("channel:         "));
-	consolePort.println(config.channel);
-
-	consolePort.print(F("authmode:        "));
-	consolePort.println(AUTH_MODE_NAMES[config.authmode]);
-
-	consolePort.print(F("ssid_hidden:     "));
-	consolePort.println(config.ssid_hidden);
-
-	consolePort.print(F("max_connection:  "));
-	consolePort.println(config.max_connection);
-
-	consolePort.print(F("beacon_interval: "));
-	consolePort.print(config.beacon_interval);
-	consolePort.println("ms");
-
-	consolePort.println(F("--------------------"));
-	consolePort.println();
-}
-
-void print_system_info(Stream & consolePort)
-{
-	const rst_info * resetInfo = system_get_rst_info();
-	consolePort.print(F("system_get_rst_info() reset reason: "));
-	consolePort.println(RST_REASONS[resetInfo->reason]);
-
-	consolePort.print(F("system_get_free_heap_size(): "));
-	consolePort.println(system_get_free_heap_size());
-
-	consolePort.print(F("system_get_os_print(): "));
-	consolePort.println(system_get_os_print());
-	system_set_os_print(1);
-	consolePort.print(F("system_get_os_print(): "));
-	consolePort.println(system_get_os_print());
-
-	system_print_meminfo();
-
-	consolePort.print(F("system_get_chip_id(): 0x"));
-	consolePort.println(system_get_chip_id(), HEX);
-
-	consolePort.print(F("system_get_sdk_version(): "));
-	consolePort.println(system_get_sdk_version());
-
-	consolePort.print(F("system_get_boot_version(): "));
-	consolePort.println(system_get_boot_version());
-
-	consolePort.print(F("system_get_userbin_addr(): 0x"));
-	consolePort.println(system_get_userbin_addr(), HEX);
-
-	consolePort.print(F("system_get_boot_mode(): "));
-	consolePort.println(system_get_boot_mode() == 0 ? F("SYS_BOOT_ENHANCE_MODE") : F("SYS_BOOT_NORMAL_MODE"));
-
-	consolePort.print(F("system_get_cpu_freq(): "));
-	consolePort.println(system_get_cpu_freq());
-
-	consolePort.print(F("system_get_flash_size_map(): "));
-	consolePort.println(FLASH_SIZE_MAP_NAMES[system_get_flash_size_map()]);
-}
-
-void print_wifi_general(Stream & consolePort)
-{
-	consolePort.print(F("wifi_get_channel(): "));
-	consolePort.println(wifi_get_channel());
-
-	consolePort.print(F("wifi_get_phy_mode(): "));
-	consolePort.println(PHY_MODE_NAMES[wifi_get_phy_mode()]);
-}
-
-void printChipDetails() {
-	Serial.println("--------Module details--------");
-	Serial.print(F("system_get_time(): "));
-	Serial.println(system_get_time());
-
-	uint32_t realSize = ESP.getFlashChipRealSize();
-	uint32_t ideSize = ESP.getFlashChipSize();
-	FlashMode_t ideMode = ESP.getFlashChipMode();
-
-	Serial.printf("Flash real id:   %08X\n", ESP.getFlashChipId());
-	Serial.printf("Flash real size: %u\n\n", realSize);
-
-	Serial.printf("Flash ide  size: %u\n", ideSize);
-	Serial.printf("Flash ide speed: %u\n", ESP.getFlashChipSpeed());
-	Serial.printf("Flash ide mode:  %s\n", (ideMode == FM_QIO ? "QIO" : ideMode == FM_QOUT ? "QOUT" : ideMode == FM_DIO ? "DIO" : ideMode == FM_DOUT ? "DOUT" : "UNKNOWN"));
-
-	if (ideSize != realSize) {
-		Serial.println("Flash Chip configuration wrong!\n");
-	}
-	else {
-		Serial.println("Flash Chip configuration ok.\n");
-	}
-	Serial.println("-------------------------------");
-	print_system_info(Serial);
-}
