@@ -1,4 +1,5 @@
 #include "Config.h"
+#include <ESP8266WiFi.h>
 #define AQUASMART_H
 #ifdef ESP8266
 extern "C" {
@@ -77,4 +78,36 @@ bool saveConfig() {
 
 	json.printTo(configFile);
 	return true;
+}
+
+/**
+* Hash builder initialized with unique module identifiers
+*/
+MD5Builder getHashBuilder()
+{
+	uint8_t mac[6];
+
+	MD5Builder md5;
+	md5.begin();
+
+	long chipId = ESP.getChipId();
+	md5.add((uint8_t*)&chipId, 4);
+
+	uint32_t flashId = ESP.getFlashChipId();
+	md5.add((uint8_t*)&flashId, 2);
+
+	WiFi.macAddress(&mac[0]);
+	md5.add(&mac[0], 6);
+
+	return md5;
+}
+
+/**
+* Unique module identifier
+*/
+String getHash()
+{
+	MD5Builder md5 = getHashBuilder();
+	md5.calculate();
+	return md5.toString();
 }

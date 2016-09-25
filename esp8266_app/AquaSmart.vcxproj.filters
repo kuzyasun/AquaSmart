@@ -46,6 +46,9 @@
     <Filter Include="lib\Ticker">
       <UniqueIdentifier>{ac787595-3ee9-4b43-9261-cbedffda3a38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\plugins">
+      <UniqueIdentifier>{0c129ff2-ee02-4ce1-8118-952870d0ed77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="platformio.ini" />
@@ -143,6 +146,21 @@
     </ClCompile>
     <ClCompile Include="src\Debug.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\plugins\AnalogPlugin.cpp">
+      <Filter>Source Files\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="src\plugins\DHTPlugin.cpp">
+      <Filter>Source Files\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="src\plugins\OneWirePlugin.cpp">
+      <Filter>Source Files\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="src\plugins\Plugin.cpp">
+      <Filter>Source Files\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="src\plugins\WifiPlugin.cpp">
+      <Filter>Source Files\plugins</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +262,21 @@
     </ClInclude>
     <ClInclude Include="src\Debug.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plugins\AnalogPlugin.h">
+      <Filter>Source Files\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plugins\DHTPlugin.h">
+      <Filter>Source Files\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plugins\OneWirePlugin.h">
+      <Filter>Source Files\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plugins\Plugin.h">
+      <Filter>Source Files\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plugins\WifiPlugin.h">
+      <Filter>Source Files\plugins</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

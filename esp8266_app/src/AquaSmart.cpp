@@ -120,10 +120,10 @@ void setupConfig()
 	if(reset == HIGH)
 	{
 		Serial.println("Reseting device to default settings");
-		if (!saveConfig()) 
-			Serial.println("Failed to save config");		
-		else 
-			Serial.println("Config saved");			
+		if (!saveConfig())
+			Serial.println("Failed to save config");
+		else
+			Serial.println("Config saved");
 	}
 
 	if (!saveConfig()) {
@@ -166,18 +166,9 @@ void setup(void) {
 	output.write(green_signal_pin, 0);
 
 	//turn on relay module
-	//output.write(RELAY_VCC_PIN, 1);
+	output.write(RELAY_VCC_PIN, 1);
 	// timeModule->updateNtpTime();
 	Serial.println(timeModule->getNtpTimeString());
-}
-
-void loop(void) {
-	//server.loopServer();
-//	Serial.println(timeModule->getNtpTimeString());
-//	delay(1000);
-	//testing ext channels
-	//TestChannelsExtChannels(output);
-	timeModule->handle();
 }
 
 void TestChannelsExtChannels(ExtDigitalOutput output) {
@@ -239,4 +230,11 @@ void TestChannelsExtChannels(ExtDigitalOutput output) {
 	// output.write(E14, 0);
 }
 
-
+void loop(void) {
+	//server.loopServer();
+//	Serial.println(timeModule->getNtpTimeString());
+//	delay(1000);
+	//testing ext channels
+	TestChannelsExtChannels(output);
+	timeModule->handle();
+}
