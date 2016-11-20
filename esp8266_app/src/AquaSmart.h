@@ -5,6 +5,7 @@ extern "C" {
 }
 #endif
 
+#include <ESPIot.h>
 #include <Arduino.h>
 #include <ArduinoOTA.h>
 #include <Wire.h>
@@ -16,5 +17,5 @@ extern "C" {
 #include "Constants.h"
 #include "Modules.h"
 #include "TimeUtil.h"
-#include "Config.h"
+
 #include "Debug.h"

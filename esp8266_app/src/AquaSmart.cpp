@@ -39,7 +39,9 @@ const byte RELAY_VCC_PIN = 15;
 const byte PIN_RTC_SDA = 4;
 const byte PIN_RTC_SCL = 5;
 //TODO change to rx or tx;
-const byte PIN_RESET_TO_DEFAULT = 4;
+#define PIN_RESET_TO_DEFAULT = 4;
+
+
 
 
 int i = 0;
@@ -54,93 +56,6 @@ void turnOfAllExtDigitalPins() {
 	}
 }
 
-void setupWifi() {
-	Serial.println("----Configuring WIFI----");
-	Serial.println("Configuring access point...");
-	WiFi.disconnect(0);
-	/* You can remove the password parameter if you want the AP to be open. */
-//	WiFi.hostname(hostName);
-//	wifi_station_set_hostname((char *)hostName.c_str());
-	//	WiFi.mode(WIFI_STA);
-	WiFi.mode(WIFI_AP_STA);
-	WiFi.softAP(ac_ssid.c_str(), ac_pwd.c_str());
-	IPAddress myIP = WiFi.softAPIP();
-	Serial.println("AP IP address: ");
-	Serial.println(myIP);
-	//
-	softap_config config;
-	wifi_softap_get_config(&config);
-	print_softap_config(Serial, config);
-
-	// set_event_handler_cb_stream(Serial);
-	wifi_set_event_handler_cb(wifi_event_handler_cb);
-
-	WiFi.begin((char *)ssid.c_str(), (char *)password.c_str());
-	// Wait for connection
-
-	while (WiFi.status() != WL_CONNECTED) {
-		output.write(red_signal_pin, 0);
-		i++;
-		delay(250);
-		output.write(red_signal_pin, 1);
-		delay(250);
-		// Serial.print(WiFi.status());
-		Serial.println(WiFi.isConnected());
-		if (i > 30) {
-			Serial.println();
-			Serial.println("Cant connect to WIFI station");
-			break;
-		}
-	}
-
-	Serial.println("");
-	Serial.print("Connected to ");
-	Serial.println(ssid);
-	Serial.print("IP address: ");
-	Serial.println(WiFi.localIP());
-	// print the received signal strength:
-	long rssi = WiFi.RSSI();
-	Serial.print("signal strength (RSSI):");
-	Serial.print(rssi);
-	Serial.println(" dBm");// - See more at: http://www.esp8266.com/viewtopic.php?f=29&t=4209#sthash.qoaknUwV.dpuf
-//	print_wifi_general(Serial);
-}
-
-void setupConfig()
-{
-	Serial.println("Mounting FS...");
-
-	if (!SPIFFS.begin()) {
-		Serial.println("Failed to mount file system");
-		return;
-	}
-
-	pinMode(PIN_RESET_TO_DEFAULT, INPUT);
-	int reset = digitalRead(PIN_RESET_TO_DEFAULT);
-	if(reset == HIGH)
-	{
-		Serial.println("Reseting device to default settings");
-		if (!saveConfig())
-			Serial.println("Failed to save config");
-		else
-			Serial.println("Config saved");
-	}
-
-	if (!saveConfig()) {
-		Serial.println("Failed to save config");
-	}
-	else {
-		Serial.println("Config saved");
-	}
-
-	if (!loadConfig()) {
-		Serial.println("Failed to load config");
-	}
-	else {
-		Serial.println("Config loaded");
-	}
-}
-
 
 void setup(void) {
 	Serial.begin(115200);
@@ -152,12 +67,10 @@ void setup(void) {
 	output.begin();
 	turnOfAllExtDigitalPins();
 	output.write(RELAY_VCC_PIN, 0);
-
 	output.write(red_signal_pin, 0);
 	output.write(green_signal_pin, 1);
 
 	setupConfig();
-
 	timeModule->setup();
 	setupWifi();
 	server.setupServer();
@@ -231,6 +144,7 @@ void TestChannelsExtChannels(ExtDigitalOutput output) {
 }
 
 void loop(void) {
+
 	//server.loopServer();
 //	Serial.println(timeModule->getNtpTimeString());
 //	delay(1000);

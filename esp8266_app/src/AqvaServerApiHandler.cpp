@@ -1,6 +1,7 @@
 
 #define AQUASMART_H
 
+#include "AquaSmart.h"
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <ArduinoOTA.h>
@@ -87,10 +88,10 @@ public:
 		root.printTo(*response);
 		request->send(response);
 	}
-	
+
 	void handleSystemSettings(AsyncWebServerRequest *request)
 	{
-		if (request->method() == HTTP_GET) {			
+		if (request->method() == HTTP_GET) {
 			AsyncWebServerResponse *response = request->beginResponse(SPIFFS, configFileUrl, "text/json");
 			request->send(response);
 			return;
@@ -164,7 +165,7 @@ public:
 			handleGetRtcTime(request);
 			return;
 		}
-		
+
 		if (command.equalsIgnoreCase(SYSTEM_SETTINGS))
 		{
 			handleSystemSettings(request);

@@ -5,7 +5,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
-#include "../config.h"
+#include <ESPIot.h>
 
 
 // plugin states
