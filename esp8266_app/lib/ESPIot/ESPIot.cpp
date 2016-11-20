@@ -30,8 +30,11 @@ void setupWifi()
 	while (WiFi.status() != WL_CONNECTED && millis() - startTime < WIFI_CONNECT_TIMEOUT)
 	{
 		// Serial.print(WiFi.status());
-		Serial.println(WiFi.isConnected());		
+		Serial.println("Connection status:" + WiFi.isConnected());
 	}
+
+	if(millis() - startTime > WIFI_CONNECT_TIMEOUT)
+		Serial.println("Connection timeout!");
 
 	if (WiFi.status() == WL_CONNECTED)
 	{
